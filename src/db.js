@@ -10,3 +10,4 @@ const handleOpen = () => console.log("✅ Connected to DB");
 const handleError = (error) => console.log("❌ DB Error", error) 
 db.once("open", handleOpen); //open 이벤트가 발생 시 handleOpen 실행 
 db.on("error", handleError); //error 이벤트가 발생할 때마다 handleError 실행 ); 
+
