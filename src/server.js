@@ -1,16 +1,36 @@
-// var AWS = reqire('aws-sdk');
-// AWS.config.region = 'ap-northeast-2';
-
-// var s3 = new AWS.S3();
-// var params = {
-//   'Bucket' : 'kidsquizbucket', 
-//   //s3에 저장될 이름
-//   'key' : 'logo.png', 
-//   //권한
-//   'ACL' :  'public-read',
-//   //Body에는 버퍼가 올 수도 있고, 문자가 올수도 있고, 스트림 오브제그가 올 수도 있음
-//   'Body' :
-
 import express from "express"
 
+const PORT = 4000;
 const app = express();
+
+
+const logger = (req, res, next) => {
+    console.log(`😎 ${req.method} ${req.url}`)
+    next();
+}
+
+const privateMiddleware = (req, res, next)=> {
+    const url = req.url;
+    if(url === "/protected"){
+        return res.send("<h1>Not Allowed</h1>")
+    }
+    next();
+}
+
+const handleHome = (req, res ) => {
+    return res.end();
+}
+
+const handelProtected = (req, res)=>{
+    return res.send("☺️Welcome to private rounge");
+}
+
+app.use(logger);        //어느 URL에서도 작동하는 middleware
+app.use(privateMiddleware);
+app.get("/", handleHome);
+app.get("/protected", handelProtected);
+
+const handleListening = () => 
+    console.log(`✅ Server listenting on port http://localhost:${PORT} 🚀 `);
+
+app.listen(4000, handleListening);

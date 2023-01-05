@@ -1,52 +1,52 @@
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
-const LiveClassesSchema = new mongoose.Schema({
-  classID:{
-    type : int,
-    required: true, 
-    unique: true
-  },
+// const LiveClassesSchema = new mongoose.Schema({
+//   classID:{
+//     type : int,
+//     required: true, 
+//     unique: true
+//   },
 
-  title : {
-    type : Stirng,
-    required: true
-  },
+//   title : {
+//     type : Stirng,
+//     required: true
+//   },
   
-  startDateTime :{
-    type : Date, 
-    required: true
-  },
+//   startDateTime :{
+//     type : Date, 
+//     required: true
+//   },
 
-  studentMaxNum :{
-    type : int, 
-    required: true
-  },
+//   studentMaxNum :{
+//     type : int, 
+//     required: true
+//   },
 
-  invitationLink :{
-    type : String,
-    required: true
-  },
+//   invitationLink :{
+//     type : String,
+//     required: true
+//   },
   
-  classKey :{
-    type : String
-  },
+//   classKey :{
+//     type : String
+//   },
 
-  classMaterial :{
-    type : mongoose.Schema.Types.ObjectId, 
-    ref : "ClassMaterials"
-  }, 
+//   classMaterial :{
+//     type : mongoose.Schema.Types.ObjectId, 
+//     ref : "ClassMaterials"
+//   }, 
 
-  users : {
-    type : mongoose.Schema.Types.ObjectId, 
-    ref : "Users"
-  }, 
+//   users : {
+//     type : mongoose.Schema.Types.ObjectId, 
+//     ref : "Users"
+//   }, 
 
-  thumnail : {
-    type : String,
-    required: true
-  }
+//   thumnail : {
+//     type : String,
+//     required: true
+//   }
 
-});
+// });
 
-const LiveClass = mongoose.model('liveClasses', LiveClassesSchema);
-module.exports = LiveClass;
+// const LiveClass = mongoose.model('liveClasses', LiveClassesSchema);
+// module.exports = LiveClass;

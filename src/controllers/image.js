@@ -1,11 +1,11 @@
-import { img } from '../../models';
+// import { img } from '../../models';
 
 
 
-module.exports = {
-  post: async (req, res) => {
-    img.imageURL = req.file.location;
-    await img.save();
-    res.status(200).json({ img: req.file.location });
-  },
-};
+// module.exports = {
+//   post: async (req, res) => {
+//     img.imageURL = req.file.location;
+//     await img.save();
+//     res.status(200).json({ img: req.file.location });
+//   },
+// };
