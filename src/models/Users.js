@@ -1,56 +1,49 @@
-// import mongoose from "mongoose";
+import mongoose from "mongoose";
 
-// const UsersSchema = new mongoose.Schema({
-//   userId:{ 
-//     type : String,
-//     required: true, 
-//     unique: true
-//   }, 
+const UsersSchema = new mongoose.Schema({
+  email:{
+    type : String,
+    trim : true,
+    unique : true,
+    required : true
+  },
+
+  name:{
+    type : String,
+    required: true
+  },
+
+  password:{
+    type : String,
+    required: true
+  },
+
+  phoneNumber:{
+    type : String,
+    required: true
+  },
+
+  children:[{
+    childrenName:{type: String},
+    childrenAge:{type: Date}
+  }],
+
+  liveClasses:[{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "LiveClasses"
+  }], 
+
+  classMaterials:[{
+    type : mongoose.Schema.Types.ObjectId, 
+    ref:"ClassMaterials"
+  }],
+
+  materials:[{
+    type : mongoose.Schema.Types.ObjectId, 
+    ref:"Materials"
+  }]
   
-//   email:{
-//     type : String,
-//     trim : true,
-//     unique : true,
-//     required : true
-//   },
+});
 
-//   name:{
-//     type : String,
-//     required: true
-//   },
-
-//   password:{
-//     type : String,
-//     required: true
-//   },
-
-//   phoneNumber:{
-//     type : String,
-//     required: true
-//   }
-
-//   // children:[{
-//   //   childrenName:{type: String},
-//   //   childrenAge:{type: Data}
-//   // }],
-
-//   // liveClasses:[{
-//   //   type : mongoose.Schema.Types.ObjectId,
-//   //   ref : "LiveClasses"
-//   // }], 
-
-//   // classMaterials:[{
-//   //   type : mongoose.Schema.Types.ObjectId, 
-//   //   ref:"ClassMaterials"
-//   // }],
-
-//   // materials:[{
-//   //   type : mongoose.Schema.Types.ObjectId, 
-//   //   ref:"Materials"
-//   // }]
-  
-// });
-
-
-// const Users = mongoose.model('Users', UsersSchema);
-// module.exports = Users;
+const User = mongoose.model('Users', UsersSchema);
+export default User;
