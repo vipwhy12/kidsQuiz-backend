@@ -1,36 +1,27 @@
 import express from "express"
+import globalRouter from "./routers/globalRouter.js";
+import userRouter from "./routers/userRouter.js";
 
-const PORT = 4000;
-const app = express();
-
-
+const PORT = 4000; // express application을 바로 사용할 수 있도록 return
+const app = express();  
 const logger = (req, res, next) => {
     console.log(`😎 ${req.method} ${req.url}`)
     next();
-}
+}  
+app.use(logger);
 
-const privateMiddleware = (req, res, next)=> {
-    const url = req.url;
-    if(url === "/protected"){
-        return res.send("<h1>Not Allowed</h1>")
-    }
-    next();
-}
+app.use("/", globalRouter);
+app.use("/users", userRouter);
 
-const handleHome = (req, res ) => {
-    return res.end();
-}
-
-const handelProtected = (req, res)=>{
-    return res.send("☺️Welcome to private rounge");
-}
-
-app.use(logger);        //어느 URL에서도 작동하는 middleware
-app.use(privateMiddleware);
-app.get("/", handleHome);
-app.get("/protected", handelProtected);
-
-const handleListening = () => 
-    console.log(`✅ Server listenting on port http://localhost:${PORT} 🚀 `);
+const handleListening = () => console.log(`✅ Server listenting on port http://localhost:${PORT} 🚀 `);
 
 app.listen(4000, handleListening);
+
+
+// const privateMiddleware = (req, res, next)=> {
+//     const url = req.url;
+//     if(url === "/protected"){
+//         return res.send("<h1>Not Allowed</h1>")
+//     }
+//     next();
+// }
