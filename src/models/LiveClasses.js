@@ -21,8 +21,7 @@ const LiveClassesSchema = new mongoose.Schema({
   },
 
   classMaterial :{
-    type : mongoose.Schema.Types.ObjectId, 
-    ref : "ClassMaterials"
+    type : String
   }, 
 
   users : {
