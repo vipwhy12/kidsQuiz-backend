@@ -1,12 +1,6 @@
 // import { Lightsail } from "aws-sdk";
 import User from "../models/Users.js"
 
-
-export const join = (req, res) => res.send("Join");
-export const edit = (req, res) => res.send("Edit User");
-export const remove = (req, res) => res.send("Remove User");
-
-
 export const postLogin = async(req, res) => {
     const {email, password} = req.body;
     console.log(email, password); 
@@ -24,6 +18,7 @@ export const postLogin = async(req, res) => {
 }
 
 export const postJoin = async(req, res) => {
+    
     console.log(req.body);
     const {email, name, password, phoneNumber, child_one_name, child_one_birth, child_two_name, child_two_birth} = req.body;
     console.log(email, name, password, phoneNumber, child_one_name, child_one_birth, child_two_name, child_two_birth)
@@ -48,7 +43,7 @@ export const postJoin = async(req, res) => {
             name, 
             password, 
             phoneNumber, 
-            childawaitren  
+            children  
         });
         console.log("회원생성 완료");
         const joinedUser = await User.findOne({email})
