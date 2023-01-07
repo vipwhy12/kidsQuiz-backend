@@ -1,4 +1,4 @@
-import User from "../models/Users"
+// import User from "../models/Users"
 
 
 export const join = (req, res) => res.send("Join");
