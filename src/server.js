@@ -21,7 +21,7 @@ app.use(express.text());
 app.use(express.json()); //string을 받아서 json으로 바꿔주는 middleware (JSON.parse를 해준다고 생각하면 됨  )
 
 
-// 라우터
+// 라우터n
 app.use("/", globalRouter);
 app.use("/user", userRouter);
 // app.use("/class", classRouter);
