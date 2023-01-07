@@ -1,31 +1,14 @@
 import mongoose from "mongoose";
 
 const UsersSchema = new mongoose.Schema({
-  email:{
-    type : String,
-    trim : true,
-    unique : true,
-    required : true
-  },
-
-  name:{
-    type : String,
-    required: true
-  },
-
-  password:{
-    type : String,
-    required: true
-  },
-
-  phoneNumber:{
-    type : String,
-    required: true
-  },
+  email:{type : String, trim : true, unique : true, required : true },
+  name:{type : String, required: true },
+  password:{type : String, required: true },
+  phoneNumber:{type : String, required: true  },
 
   children:[{
-    childrenName:{type: String},
-    childrenAge:{type: Date}
+    childName:{type: String},
+    childBirth:{type: Date}
   }],
 
   liveClasses:[{
