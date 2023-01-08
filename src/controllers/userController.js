@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 dotenv.config();
 
-
 export const postLogin = async(req, res) => {
     const {email, password} = req.body;
     console.log(email, password); 
@@ -21,13 +20,12 @@ export const postLogin = async(req, res) => {
 
     //! 🎉 토큰 발급
     try {
-        const id = email; 
-        // jwt.sign() 메소드: 토큰 발급 
+        const id = email;  
         const token = jwt.sign({id}, process.env.JWT_SECRET, {
-            expiresIn: "5m", //1분
+            expiresIn: "60m", // 60분
             issuer: "snowball"
         });
-        return res.status(200).json({message: '토큰이 발급되었습니다.', token });
+        return res.status(200).json({message: '🎉 토큰이 발급되었습니다.', token });
         }
     catch (error) {
         console.error("토큰 발급 중 에러 발생. 💊 Details:", error);
@@ -106,4 +104,3 @@ export const findPw = async (req, res) => {
         return res.status("200").json({ tempPassword: tempPassword });
     }
 }
-
