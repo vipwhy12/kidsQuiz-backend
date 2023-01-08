@@ -4,13 +4,9 @@ import {getUserId} from "../middlewares.js"
 
 export const getClassList = async(req, res) => {
     console.log("getClassList 호출 🧤 ")
-    const { id } = req.params; //id 는 유저 id
-    const loggedInUser = await getUserId(req.loggedInUser);
-    if (loggedInUser != id ){
-        return res.status(401).json({ message:"You have no right to see the classinfo 😤 " });
-    }
-
-    const user = await User.findOne({_id:id});
+    const id = await getUserId(req.loggedInUser);
+    
+    const user = await User.findOne(id);
     if (!user){
         return res.status(401).json({ message:"There's no such User 😢" });
     } 

@@ -6,7 +6,7 @@ dotenv.config();
 
 export const postLogin = async(req, res) => {
     const {email, password} = req.body;
-    console.log(email, password); 
+    console.log("POST LOGIN 🧤 :", email, password); 
     const user = await User.findOne({email});  //email키의 값이 (변수)email 인 것 찾음 
     console.log(user);
     

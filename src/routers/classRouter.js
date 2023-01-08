@@ -4,7 +4,7 @@ import {verifyToken} from "../middlewares.js";
 
 const classRouter = express.Router();
 
-classRouter.route("/list/:id([0-9a-z]{24})").all(verifyToken).get(getClassList);
+classRouter.route("/").all(verifyToken).get(getClassList);
 classRouter.route("/new").all(verifyToken).post(postNewClass);
 classRouter.route("/:id([0-9a-z]{24})")
     .all(verifyToken)
