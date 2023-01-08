@@ -1,20 +1,13 @@
 import mongoose from "mongoose";
 
 const MaterialsSchema = new mongoose.Schema({
-  name:{
-    type : String,
-    required : true
-  },
+  name:{ type : String, required : true},
+  type:{ type : String, required: true},
 
-  type:{
-    type : String,
-    required: true
-  },
 
   content:{
     type : mongoose.Schema.Types.ObjectId, 
     required: true, 
-    ref:"ClassMaterials"
   },
 
   createAt:{
