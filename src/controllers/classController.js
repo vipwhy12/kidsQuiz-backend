@@ -45,7 +45,7 @@ export const postNewClass = async(req,res) => {
     console.log("postJoin 호출", title, startDateTime, studentMaxNum, classKey, classMaterial, thumbnail);
     
     if (!title || !startDateTime || studentMaxNum<=0 || !thumbnail ) {
-        return res.status(400).json({ message:"There's missing information 😭" });
+        return res.status(400).json({ message:"There's missing information 😭", title, startDateTime, studentMaxNum, thumbnail });
     }
     // 이 유저가 생성한 클래스 중 겹치는 시간이 있는지 확인 
     const sameDateTime = await Class.findOne({startDateTime, user})

@@ -1,5 +1,5 @@
 import express from "express";
-import {postCredential, getUserInfo, postUserInfo, deleteUser} from "../controllers/userinfoController.js";
+import {postCredential, getUserInfo, postUserInfo, deleteUser} from "../controllers/userInfoController.js";
 import {verifyToken} from "../middlewares.js";
 
 const userInfoRouter = express.Router();

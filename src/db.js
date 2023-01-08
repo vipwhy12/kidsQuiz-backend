@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-// mongoose.connect("mongodb://10.0.10.84:27017",{
-mongoose.connect("mongodb://127.0.0.1:27017/kidsquiz",{
+mongoose.connect("mongodb://10.0.10.84:27017/kidsquiz",{
+//mongoose.connect("mongodb://127.0.0.1:27017/kidsquiz",{
 	useNewUrlParser:true, 
 	useUnifiedTopology:true, 
 	} //두번째 인자 부분은 아래에서 설명
