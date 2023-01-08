@@ -1,6 +1,7 @@
 import Class from "../models/LiveClasses.js"
 import User from "../models/Users.js"
 
+
 export const postCredential = async(req, res) => {
     console.log("postCredential 호출 🧤 ")
     const {_id, password} = req.body; 
@@ -67,7 +68,7 @@ export const deleteUser = async(req, res) => {
     if (!deletedUser) {
         return res.status(400).json({ message:"Found no user to delete 😭" });
     }
-    //! 이 유저가 생성했던 클래스와 교구들도 모두 삭제하는 로직 추가해야해!
+    //TODO: 이 유저가 생성했던 클래스와 교구들도 모두 삭제하는 로직 추가해야해!
     return res.status(200).send(deletedUser);
 }
 

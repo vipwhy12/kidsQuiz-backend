@@ -1,5 +1,9 @@
 // import { Lightsail } from "aws-sdk";
 import User from "../models/Users.js"
+import jwt from "jsonwebtoken"
+import dotenv from "dotenv"
+dotenv.config();
+
 
 export const postLogin = async(req, res) => {
     const {email, password} = req.body;
@@ -14,7 +18,21 @@ export const postLogin = async(req, res) => {
     if (user.password !== password) {
     return res.status(401).json({ message:"Password does not match 😢" });
     }
-    return res.status(200).json({ message: "Loggin!"})
+
+    //! 🎉 토큰 발급
+    try {
+        const id = email; 
+        // jwt.sign() 메소드: 토큰 발급 
+        const token = jwt.sign({id}, process.env.JWT_SECRET, {
+            expiresIn: "5m", //1분
+            issuer: "snowball"
+        });
+        return res.status(200).json({message: '토큰이 발급되었습니다.', token });
+        }
+    catch (error) {
+        console.error("토큰 발급 중 에러 발생. 💊 Details:", error);
+        return res.status(500).json({message: '서버 에러'});
+    }
 }
 
 export const postJoin = async(req, res) => {
@@ -88,3 +106,4 @@ export const findPw = async (req, res) => {
         return res.status("200").json({ tempPassword: tempPassword });
     }
 }
+
