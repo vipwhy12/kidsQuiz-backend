@@ -35,8 +35,8 @@ export const postLogin = async(req, res) => {
 
 export const postJoin = async(req, res) => {
     console.log(req.body);
-    const {email, name, password, phoneNumber, child_one_name, child_one_birth, child_two_name, child_two_birth} = req.body;
-    console.log(email, name, password, phoneNumber, child_one_name, child_one_birth, child_two_name, child_two_birth)
+    const {email, name, password, phoneNumber, childOneName, childOneBirth, childTwoName, childTwoBirth} = req.body;
+    console.log(email, name, password, phoneNumber, childOneName, childOneBirth, childTwoName, childTwoBirth)
 
     //필수값 중 빠진 값이 있는지 확인 
     if (email == null || name == null || password== null ||  phoneNumber == null) {
@@ -48,11 +48,11 @@ export const postJoin = async(req, res) => {
         return res.status(401).json({ message:"User with the email address already exists" });
     }
     const children= [{
-                    childName: child_one_birth,
-                    childBirth: child_one_birth,
+                    childName: childOneName,
+                    childBirth: childOneBirth,
                 }, {
-                    childName: child_two_birth,
-                    childBirth: child_two_birth,
+                    childName: childTwoName,
+                    childBirth: childTwoBirth,
                 }]
     console.log(children)
     try{

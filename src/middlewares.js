@@ -92,7 +92,6 @@ export const avatarUploadHandler= (req, res, next) => {
         return res.status(400)	  // An unknown error occurred when uploading.
       }
       // next()
-      console.log("성공!?");
   })
   
 }
