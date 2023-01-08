@@ -2,6 +2,13 @@ import Class from "../models/LiveClasses.js"
 import User from "../models/Users.js"
 import {getUserId} from "../middlewares.js"
 
+
+export const postImage = (req,res) => {
+    const {file} = req.body
+    console.log("file~~" ,file);
+    res.send("OK")
+}
+
 export const getClassList = async(req, res) => {
     console.log("getClassList 호출 🧤 ")
     const id = await getUserId(req.loggedInUser);

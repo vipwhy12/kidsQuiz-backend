@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-console.log(process.platform);
+// console.log(process.platform);
 let dbAddr = "10.0.10.84"
 if (process.platform != "linux") {
 	dbAddr = "127.0.0.1"
