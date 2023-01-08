@@ -1,19 +1,15 @@
 import Class from "../models/LiveClasses.js"
 import User from "../models/Users.js"
-
+import {getUserId} from "../middlewares.js"
 
 export const postCredential = async(req, res) => {
     console.log("postCredential 호출 🧤 ")
-    const {_id, password} = req.body; 
-    // 올바른 id형식인지 확인
-    const myRe = /[0-9a-z]{24}/;
-    const result = myRe.test(_id);
-    if (!result) {
-        return res.status(401).json({ message:"The format of _id is not correct 😢" });
-    }
+    const {password} = req.body; 
+    
+    const _id = await getUserId(req.loggedInUser);
     const user = await User.findById(_id); 
     if (!user) {
-        return res.status(401).json({ message:"No user with the id😢 " });
+        return res.status(401).json({ message:"No usfer with the id😢 " });
        }
       if (user.password !== password) {
       return res.status(400).json({ message:"Password does not match 😢" });
@@ -23,7 +19,8 @@ export const postCredential = async(req, res) => {
 
 export const getUserInfo = async(req, res) => {
     console.log("getUserInfo 호출 🧤 ")
-    const _id  = req.params.id; //id는 유저 id 
+    const _id = await getUserId(req.loggedInUser);
+
     const user = await User.findById(_id); 
     if (!user) {
         return res.status(401).json({ message:"No user with the id😢 " });
@@ -34,7 +31,7 @@ export const getUserInfo = async(req, res) => {
 
 export const postUserInfo = async(req, res) => {
     console.log("postUserInfo 호출 🧤 ")
-    const _id  = req.params.id; //id는 유저 id 
+    const _id = await getUserId(req.loggedInUser);
     const {name, password, phoneNumber, child_one_name, child_one_birth,child_two_name, child_two_birth} = req.body;
     if (name == null || password== null || phoneNumber == null) {
         return res.status(400).json({ message:"There's missing information 😭" });
@@ -61,7 +58,7 @@ export const postUserInfo = async(req, res) => {
 }
 
 export const deleteUser = async(req, res) => {
-    const _id  = req.params.id; 
+    const _id = await getUserId(req.loggedInUser);
     console.log("deleteUser 호출 🧤 ")
     const deletedUser = await User.findByIdAndDelete(_id);
     console.log("deletedUser ", deletedUser);

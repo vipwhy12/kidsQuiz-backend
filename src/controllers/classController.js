@@ -1,9 +1,15 @@
 import Class from "../models/LiveClasses.js"
 import User from "../models/Users.js"
+import {getUserId} from "../middlewares.js"
 
 export const getClassList = async(req, res) => {
     console.log("getClassList 호출 🧤 ")
     const { id } = req.params; //id 는 유저 id
+    const loggedInUser = await getUserId(req.loggedInUser);
+    if (loggedInUser != id ){
+        return res.status(401).json({ message:"You have no right to see the classinfo 😤 " });
+    }
+
     const user = await User.findOne({_id:id});
     if (!user){
         return res.status(401).json({ message:"There's no such User 😢" });
@@ -17,20 +23,28 @@ export const getClassList = async(req, res) => {
 export const getClass = async(req, res) => {
     console.log("getClass 호출 🧤 ")
     const { id } = req.params; //id는 클래스 id 
+    const user = await getUserId(req.loggedInUser);
     const classFound = await Class.findById(id);
     console.log("classFound는", classFound)
     if (classFound == "" || classFound == null) {
         return res.status(401).json({ message:"Can't found the Class 😢" });
     }
+    if (classFound._id != user) {
+        return res.status(401).json({ message:"You have no right to see the classinfo 😤 " });
+    }
+
     return res.status(200).json(classFound);
 }
 
 export const postNewClass = async(req,res) => {
     console.log("getPostNewClass 호출 🧤 ")
-    const {title, startDateTime, studentMaxNum, classKey, classMaterial, thumbnail, user} = req.body;
-    console.log("postJoin 호출", title, startDateTime, studentMaxNum, classKey, classMaterial, thumbnail, user);
+    // console.log("로그인한 유저는!!!!! 🙊🙊🙊", req.loggedInUser);
+    const user = await getUserId(req.loggedInUser);
+    // console.log("로그인한 유저ID는!!!!! 🙊🙊🙊", user);
+    const {title, startDateTime, studentMaxNum, classKey, classMaterial, thumbnail} = req.body;
+    console.log("postJoin 호출", title, startDateTime, studentMaxNum, classKey, classMaterial, thumbnail);
     
-    if (!title || !startDateTime || studentMaxNum<=0 || !thumbnail || !user ) {
+    if (!title || !startDateTime || studentMaxNum<=0 || !thumbnail ) {
         return res.status(400).json({ message:"There's missing information 😭" });
     }
     // 이 유저가 생성한 클래스 중 겹치는 시간이 있는지 확인 
@@ -48,7 +62,7 @@ export const postNewClass = async(req,res) => {
             classKey, 
             classMaterial, 
             thumbnail, 
-            user 
+            user
         });
         console.log("클래스 생성 완료");
         
@@ -63,10 +77,16 @@ export const postNewClass = async(req,res) => {
 }
 export const postClass = async(req,res) => {
     console.log("postClass 호출 🧤 ")
+
     const _id  = req.params.id; //id는 클래스 id 
-    const {title, startDateTime, studentMaxNum, classKey, classMaterial, thumbnail, user} = req.body;
+    const {title, startDateTime, studentMaxNum, classKey, classMaterial, thumbnail} = req.body;
     
-    //! 로그인된 유저가 이 클래스의 유저가 맞는지 확인하는 작업 추가해야해!
+    const user = await getUserId(req.loggedInUser);
+
+    const classFound = Class.findById(_id); 
+    if (classFound._id != user) {
+        return res.status(401).json({ message:"You have no right to update the class 😤 " });
+    }
 
     const sameDateTime = await Class.findOne({startDateTime, user})
     if (sameDateTime && sameDateTime._id != _id ) {
@@ -91,6 +111,12 @@ export const postClass = async(req,res) => {
 export const deleteClass  = async(req,res) => {
     console.log("deleteClass 호출 🧤 ")
     const { id } = req.params; //id는 클래스 id 
+    const user = await getUserId(req.loggedInUser);
+    const classFound = Class.findById(id); 
+    if (classFound._id != user) {
+        return res.status(401).json({ message:"You have no right to delete the class 😤 " });
+    }
+
     const deletedClass = await Class.findByIdAndDelete(id);
     console.log("deletedClass는 ", deletedClass);
     if (!deletedClass) {
