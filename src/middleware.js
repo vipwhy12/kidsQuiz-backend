@@ -28,8 +28,8 @@ const s3imageUploader = multerS3({
 	contentType: multerS3.AUTO_CONTENT_TYPE
 })
 
+
 export const s3ImageUploadHandler = (req, res, next) => {
-	console.log(req.file);
 	const imageUploader = multer({
 		dest:"uploads/", 
 		limits : {
@@ -37,12 +37,8 @@ export const s3ImageUploadHandler = (req, res, next) => {
 		},
 		acl: "public-read",
 		storage: s3imageUploader,
-	}).single('duck');
+	}).single('image');
 	
-	// imageUploader(req, res, function(err){
-	// 	console.log("에러?",err);
-	// 	next();
-	// });
 	imageUploader(req, res, function (err) {
 		if (err instanceof multer.MulterError) {
 			console.log(err)
@@ -52,8 +48,8 @@ export const s3ImageUploadHandler = (req, res, next) => {
 			return res.status(400)	  // An unknown error occurred when uploading.
 		}
 		next()
-})
-	};
+	})
+};
 
 
 
