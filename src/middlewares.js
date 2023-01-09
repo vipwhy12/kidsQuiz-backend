@@ -71,6 +71,9 @@ export function verifyToken(req, res, next) {
     bucket: "kidsquizbucket/upload", 
     acl: "public-read",// ACL(객체에 대한 접근 권한). public-read로 전달해야 files are publicly-read. 
     contentType: multerS3.AUTO_CONTENT_TYPE,
+    key: function (req, file, cb) {
+      cb(null, `${Date.now()}_${file.originalname}`);
+    }
   })
 
 
@@ -81,7 +84,7 @@ export const avatarUploadHandler= (req, res, next) => {
     fileSize: 3000000, //단위는 byte (= 3MB)
   },
   storage: s3imageUploader,
-}).single('avatar');
+}).single('image');
 
   avatarUpload(req, res, function (err) {
       if (err instanceof multer.MulterError) {
@@ -91,7 +94,7 @@ export const avatarUploadHandler= (req, res, next) => {
         console.log(err)
         return res.status(400)	  // An unknown error occurred when uploading.
       }
-      // next()
+      next()
   })
   
 }

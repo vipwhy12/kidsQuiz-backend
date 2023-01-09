@@ -5,7 +5,7 @@ import {verifyToken, avatarUploadHandler} from "../middlewares.js";
 const classRouter = express.Router();
 
 classRouter.route("/").all(verifyToken).get(getClassList);
-classRouter.route("/new").all(verifyToken).post(postNewClass);
+classRouter.route("/new").all(verifyToken).post(avatarUploadHandler, postNewClass);
 classRouter.route("/image").post(avatarUploadHandler);
 classRouter.route("/:id([0-9a-z]{24})")
     .all(verifyToken)
