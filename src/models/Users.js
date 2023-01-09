@@ -6,10 +6,10 @@ const UsersSchema = new mongoose.Schema({
   password:{type : String, required: true },
   phoneNumber:{type : String, required: true  },
 
-  children:[{
-    childName:{type: String},
-    childBirth:{type: Date}
-  }],
+  // children:[{
+  //   childName:{type: String},
+  //   childBirth:{type: Date}
+  // }],
 
   liveClasses:[{
     type : mongoose.Schema.Types.ObjectId,
