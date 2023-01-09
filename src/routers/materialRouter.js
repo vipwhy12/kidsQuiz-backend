@@ -7,6 +7,6 @@ const materialRouter = express.Router();
 
 materialRouter.get("/", checkToken ,getClassMaterial);
 // materialRouter.post("/", s3imageUploadHandler, s3Test);
-materialRouter.post("/puzzle", s3ImageUploadHandler ,createPuzzle);
+materialRouter.post("/puzzle", s3ImageUploadHandler, createPuzzle);
 
 export default materialRouter;
