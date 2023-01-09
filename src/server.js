@@ -8,6 +8,8 @@ import userRouter from "./routers/userRouter.js";
 import classRouter from "./routers/classRouter.js";
 import userInfoRouter from "./routers/userInfoRouter.js";
 import materialRouter from "./routers/materialRouter.js";
+import classMaterialRouter from "./routers/classMaterialRouter.js";
+
 import { parse } from "path";
 import bodyParser from "body-parser";
 import multer from "multer"
@@ -31,6 +33,7 @@ app.use("/class", classRouter);
 // app.use("/live", liveRouter);
 app.use("/material", materialRouter);
 app.use("/userinfo", userInfoRouter);
+app.use("/classMaterial", classMaterialRouter);
 
 // app.post('test', upload.single('test'), funtion(req, res){
 //   cons.log(req.file, req.body)

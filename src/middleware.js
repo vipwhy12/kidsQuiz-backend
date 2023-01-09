@@ -1,16 +1,29 @@
+import User from "./models/Users.js"
+
 import multer from "multer";
 import multerS3 from "multer-s3";
 import aws from "aws-sdk";
 import dotenv from "dotenv"
+import jwt from "jsonwebtoken";
+
+
 dotenv.config()
+
+//👇 회원의 ObjectId를 반환
+export const getUserId = async(email) => {
+	const userId = await User.findOne({email : email});
+	if(userId){	return userId._id }
+	return null
+}
 
 // 👇 Token 관련 MiddleWare입니다.
 export const checkToken = (req, res, next) => {
 	if(req.headers["authorization"] ==  undefined){
     return res.status(403).send("🥲 토큰이 없습니다. 토큰을 유무를 확인해주세요.");
-  } else {
-	next();
-	}
+  } 
+	const bearer = req.headers["authorization"].split(" ");
+	req.UserEmail = jwt.decode(bearer[1]).id;
+	return next();
 }
 
 // 👇 Materials 관련 MiddleWare입니다.
