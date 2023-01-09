@@ -4,10 +4,20 @@ import aws from "aws-sdk";
 import dotenv from "dotenv"
 dotenv.config()
 
+// 👇 Token 관련 MiddleWare입니다.
+export const checkToken = (req, res, next) => {
+	if(req.headers["authorization"] ==  undefined){
+    return res.status(403).send("🥲 토큰이 없습니다. 토큰을 유무를 확인해주세요.");
+  } else {
+	next();
+	}
+}
+
+// 👇 Materials 관련 MiddleWare입니다.
 const s3 = new aws.S3 ({
 	credentials: {
 		accessKeyId : process.env.AWS_ID,
-		secretAccessKey: process.env.AWS_PW
+		secretAccessKey: process.env.AWS_KEY
 	}
 })
 
@@ -18,23 +28,7 @@ const s3imageUploader = multerS3({
 	contentType: multerS3.AUTO_CONTENT_TYPE
 })
 
-
-// const s3imageUploader = multerS3({
-// 	s3:s3,
-// 	bucket: "kidsquizbucket/upload",
-// 	acl: "public-read",
-// 	storage: s3imageUploader,
-// 	contentType : AUTO_CONTENT_TYPE
-// }).single('test');
-
-// export const s3imageUploader = multerS3 ({
-// 	s3:s3,
-// 	bucket: "kidsquizbucket/upload", // image 디렉토리로 지정 
-// 	acl: "public-read",// ACL(객체에 대한 접근 권한). public-read로 전달해야 files are publicly-read. 
-// 	contentType : AUTO_CONTENT_TYPE
-// })
-
-export const s3imageUploadHandler = (req, res, next) => {
+export const s3ImageUploadHandler = (req, res, next) => {
 	console.log(req.file);
 	const imageUploader = multer({
 		dest:"uploads/", 
@@ -43,7 +37,7 @@ export const s3imageUploadHandler = (req, res, next) => {
 		},
 		acl: "public-read",
 		storage: s3imageUploader,
-	}).single('test');
+	}).single('duck');
 	
 	// imageUploader(req, res, function(err){
 	// 	console.log("에러?",err);
@@ -57,14 +51,9 @@ export const s3imageUploadHandler = (req, res, next) => {
 			console.log(err)
 			return res.status(400)	  // An unknown error occurred when uploading.
 		}
-		// next()
+		next()
 })
-	
-
 	};
-
-
-
 
 
 

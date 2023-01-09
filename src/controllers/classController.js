@@ -41,7 +41,7 @@ export const postNewClass = async(req,res) => {
 
     try{
         console.log("클래스 생성 시작");
-         await Class.create({
+        await Class.create({
             title, 
             startDateTime, 
             studentMaxNum, 

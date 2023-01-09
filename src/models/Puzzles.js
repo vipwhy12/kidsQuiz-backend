@@ -1,26 +1,16 @@
 import mongoose from "mongoose";
 
-const PuzzleSchema = new mongoose.Schema({
-  image :{
-    type : String,
-    required: true
-  },
-
-  material :{
-    type : String,
-    required: true
-  }, 
-
-  rows :{
-    type : int,
-    required : ture
-  }, 
-  
-  columns:{
-    type : int,
-    required : ture
+const PuzzlesSchema = new mongoose.Schema({
+  title : { type : String, require : true},
+  image : { type : String, required: true},
+  rows : { type : int, required : true },
+  columns : { type : int, required : true},
+  user : { 
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "Users",
+    require : true
   }
 });
 
-
+const Puzzle = mongoose.model('Puzzles', PuzzlesSchema);
 module.exports = Puzzle;
