@@ -41,13 +41,20 @@ export const getClass = async(req, res) => {
 
 export const postNewClass = async(req,res) => {
     console.log("getPostNewClass 호출 🧤 ")
-    // console.log("로그인한 유저는!!!!! 🙊🙊🙊", req.loggedInUser);
+    let thumbnail ; 
+    if (req.file == undefined ) {
+        thumbnail = "https://kidsquizbucket.s3.ap-northeast-2.amazonaws.com/upload/defaultThumbnail.jpeg"
+    }
+    else {
+        const file = req.file
+        console.log("뽑아보자",file.location);
+        thumbnail = file.location
+    }
+
     const user = await getUserId(req.loggedInUser);
-    // console.log("로그인한 유저ID는!!!!! 🙊🙊🙊", user);
-    const {title, startDateTime, studentMaxNum, classKey, classMaterial, thumbnail} = req.body;
-    console.log("postJoin 호출", title, startDateTime, studentMaxNum, classKey, classMaterial, thumbnail);
-    
-    if (!title || !startDateTime || studentMaxNum<=0 || !thumbnail ) {
+    const {title, startDateTime, studentMaxNum, classKey, classMaterial} = req.body;
+   
+    if (!title || !startDateTime || studentMaxNum<=0 ) {
         return res.status(400).json({ message:"There's missing information 😭", title, startDateTime, studentMaxNum, thumbnail });
     }
     // 이 유저가 생성한 클래스 중 겹치는 시간이 있는지 확인 
