@@ -35,8 +35,10 @@ export const postLogin = async(req, res) => {
 
 export const postJoin = async(req, res) => {
     console.log(req.body);
-    const {email, name, password, phoneNumber, childOneName, childOneBirth, childTwoName, childTwoBirth} = req.body;
-    console.log(email, name, password, phoneNumber, childOneName, childOneBirth, childTwoName, childTwoBirth)
+    // const {email, name, password, phoneNumber, childOneName, childOneBirth, childTwoName, childTwoBirth} = req.body;
+    // console.log(email, name, password, phoneNumber, childOneName, childOneBirth, childTwoName, childTwoBirth)
+    const {email, name, password, phoneNumber} = req.body;
+    console.log(email, name, password, phoneNumber)
 
     //필수값 중 빠진 값이 있는지 확인 
     if (email == null || name == null || password== null ||  phoneNumber == null) {
@@ -47,22 +49,21 @@ export const postJoin = async(req, res) => {
     if (existing) {
         return res.status(401).json({ message:"User with the email address already exists" });
     }
-    const children= [{
-                    childName: childOneName,
-                    childBirth: childOneBirth,
-                }, {
-                    childName: childTwoName,
-                    childBirth: childTwoBirth,
-                }]
-    console.log(children)
+    // const children= [{
+    //                 childName: childOneName,
+    //                 childBirth: childOneBirth,
+    //             }, {
+    //                 childName: childTwoName,
+    //                 childBirth: childTwoBirth,
+    //             }]
+    // console.log(children)
     try{
         console.log("회원생성 시작");
         await User.create({
             email, 
             name, 
             password, 
-            phoneNumber, 
-            children  
+            phoneNumber
         });
         console.log("회원생성 완료");
         const joinedUser = await User.findOne({email})

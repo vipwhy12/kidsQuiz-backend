@@ -29,28 +29,22 @@ export const getUserInfo = async(req, res) => {
 
 }
 
+
 export const postUserInfo = async(req, res) => {
     console.log("postUserInfo 호출 🧤 ")
     const _id = await getUserId(req.loggedInUser);
-    const {name, password, phoneNumber, child_one_name, child_one_birth,child_two_name, child_two_birth} = req.body;
+    // const {name, password, phoneNumber, childOneName, childOneBirth, childTwoName, childTwoBirth} = req.body;
+    const {name, password, phoneNumber} = req.body;
+    console.log(name, password, phoneNumber)
     if (name == null || password== null || phoneNumber == null) {
         return res.status(400).json({ message:"There's missing information 😭" });
     }
-    const children= [{
-        childName: child_one_birth,
-        childBirth: child_one_birth,
-      }, {
-        childName: child_two_birth,
-        childBirth: child_two_birth,
-    }]
- 
     const updatedUserInfo = await User.findByIdAndUpdate(
         _id, 
         {
             name, 
             password, 
-            phoneNumber, 
-            children  
+            phoneNumber
         }, 
         {new:true}); //new:true 를 하면 업데이트된 값을 리턴. (false 이면 바뀌기 전 값을 리턴)
 
