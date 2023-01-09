@@ -10,7 +10,7 @@ classRouter.route("/image").post(avatarUploadHandler);
 classRouter.route("/:id([0-9a-z]{24})")
     .all(verifyToken)
     .get(getClass)
-    .post(postClass)
+    .post(avatarUploadHandler,postClass)
     .delete(deleteClass)
 
 export default classRouter;
