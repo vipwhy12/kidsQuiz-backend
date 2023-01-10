@@ -1,7 +1,7 @@
 import Puzzle from "../models/Puzzles.js";
 import Material from "../models/Materials.js";
 import User from "../models/Users.js";
-import MultipleChoice from "../models/MultipleChoice.js";
+// import MultipleChoice from "../models/MultipleChoice.js";
 
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
