@@ -1,14 +1,16 @@
 import express from "express";
-import {getClassList, getClass, postNewClass, postClass, deleteClass } from "../controllers/classController.js";
+import {getClassList, getClass, postNewClass, postClass, deleteClass, postImage } from "../controllers/classController.js";
+import {verifyToken, avatarUploadHandler} from "../middlewares.js";
 
 const classRouter = express.Router();
 
-classRouter.get("/list/:id([0-9a-z]{24})", getClassList);
-classRouter.post("/new", postNewClass);
-
+classRouter.route("/").all(verifyToken).get(getClassList);
+classRouter.route("/new").all(verifyToken).post(avatarUploadHandler, postNewClass);
+classRouter.route("/image").post(avatarUploadHandler);
 classRouter.route("/:id([0-9a-z]{24})")
+    .all(verifyToken)
     .get(getClass)
-    .post(postClass)
+    .post(avatarUploadHandler,postClass)
     .delete(deleteClass)
 
 export default classRouter;
