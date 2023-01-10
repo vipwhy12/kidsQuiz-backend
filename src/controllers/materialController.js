@@ -12,10 +12,17 @@ dotenv.config();
 
 //🌟 Material 관련 함수 
 export const getMaterial = async (req, res) => {
-  // TODO : 사용자의 아이디와 같은 수업 자료들 목록 불러오기
-  const user = await User.findOne({email : req.UserEmail});  
-  const findPuzzle = await Puzzle.find({user : user._id.toString()});
-  return res.status(200).json({Puzzle : findPuzzle});
+  // TODO : 사용자의 아이디와 자료 보여주기
+  const user = await User.findOne({email : req.UserEmail});
+  const usreObejctId = user._id.toString();
+
+  try{
+    const findPuzzle = await Puzzle.find({user :usreObejctId});
+    const findMultipleChoice = await MultipleChoice({user : usreObejctId });
+    return res.status(200).json({Puzzle : findPuzzle, MultipleChoice : findMultipleChoice});
+  }catch(error){
+    return res.status(419).json({message : "💥err:"  + error});
+  }
 };
 
 
