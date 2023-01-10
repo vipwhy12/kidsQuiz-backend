@@ -55,8 +55,6 @@ export const createPuzzle = async (req, res) => {
         columns :columns,
         user : userId.id.toString()
       })
-      
-      console.log("🧩 Puzzle 생성을 완료하였습니다.");
       return res.status(200).json({ message : "🧩 Puzzle 생성을 완료하였습니다."})
     } catch (error){
       return res
