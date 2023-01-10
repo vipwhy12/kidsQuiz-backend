@@ -61,6 +61,51 @@ export const createPuzzle = async (req, res) => {
 }
 
 // export const deletePuzzle = async (req, res) => {
-
 // }
+
+
+//=============================================
+//🌟 ClassMaterial 관련 함수 
+export const getClassMaterial = async (req, res) => {
+  // 사용자가 가지고 있는 classMaterial 목록 불러오기 
+  const MaterialList = await Material.find({});
+  return res.status(200).json({ ClassMaterial : MaterialList });
+}
+
+
+export const createClassMaterial = async (req, res) => {
+  // 사용자가 가지고 있는 classMaterial 목록 불러오기 
+  console.log("이것은 ClassMaterial을 만드는 목록입니다.");
+  console.log(req.UserEmail);
+  const user = await User.findOne({email : req.UserEmail});
+  const { title, createAt, puzzle, multipleChoice} = req.body;
+  console.log(user._id); 
+  console.log(title, createAt, puzzle, multipleChoice);
+  
+  let arr = [];
+
+  for (let i = 0; i < puzzle.length; i++){
+    arr[i] = puzzle[i].ObjectId;
+    console.log(i);
+  }
+  // console.log(puzzle[0].ObjectId);
+  console.log(arr);
+  try {
+    console.log("✨Class Materials 생성을 시작합니다.");
+    await Material.create({
+      title : title, 
+      createAt : createAt,
+      user : user.id.toString(),
+      puzzle : arr,
+      multipleChoice : null
+    })
+    console.log("✨Class Materials 생성을 완료하였습니다.✨");
+    return res.status(200).json({ message : "✨Class Materials 생성을 완료하였습니다.✨"})
+  } catch (error){
+    console.log(error);
+    return res
+      .status(500).json({ message: "✨Class Materials 생성에 실패하였습니다.✨필수 데이터 확인 후 백엔드 개발자에게 문의해주세요" });
+  }
+}
+
 
