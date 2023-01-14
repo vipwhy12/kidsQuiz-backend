@@ -1,4 +1,4 @@
-// import { Lightsail } from "aws-sdk";
+
 import User from "../models/Users.js"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
@@ -75,33 +75,35 @@ export const postJoin = async(req, res) => {
 }
 
 export const findId = async (req, res) => {
-    // TODO : (아이디 찾기)핸드폰 인증으로 회원 확인 후, 회원 id 반환
-    const {name, phoneNumber}  = req.body;
-    const findUser = await User.find({name : name, phoneNumber : phoneNumber}).exec();
-    
-    if(findUser == ""){
-        console.log("🥲 회원이 아닙니다.");
-        return res.status(403);
-    }else{
-        const userEmail = findUser[0].email;
-        return res.status("200").json({ userEmail: userEmail });;
-    }
+  // TODO : (아이디 찾기)핸드폰 인증으로 회원 확인 후, 회원 id 반환
+  const { name, phoneNumber } = req.body;
+  const findUser = await User.find({
+    name: name,
+    phoneNumber: phoneNumber,
+  }).exec();
 
-}
+  if (findUser == "") {
+    console.log("🥲 회원이 아닙니다.");
+    return res.status(403);
+  } else {
+    const userEmail = findUser[0].email;
+    return res.status("200").json({ userEmail: userEmail });
+  }
+};
 
 export const findPw = async (req, res) => {
-    // TODO : (비밀번호 찾기) 임시 비밀번호 암호화 & 임시 비밀번호 이메일 전송기능 추가
-    const {name, email} = req.body;
-    const findUser = await User.find({name : name, email : email});
+  // TODO : (비밀번호 찾기) 임시 비밀번호 암호화 & 임시 비밀번호 이메일 전송기능 추가
+  const { name, email } = req.body;
+  const findUser = await User.find({ name: name, email: email });
 
-    console.log(name, email);
-    // console.log(findUser);
-    if(findUser == ""){
-        console.log("🥲 회원이 아닙니다.");
-        return res.status(403);
-    }else{
-        const tempPassword = Math.random().toString(36).substring(2, 12);
-        await User.where({email : email}).update({password : tempPassword});
-        return res.status("200").json({ tempPassword: tempPassword });
-    }
-}
+  console.log(name, email);
+  // console.log(findUser);
+  if (findUser == "") {
+    console.log("🥲 회원이 아닙니다.");
+    return res.status(403);
+  } else {
+    const tempPassword = Math.random().toString(36).substring(2, 12);
+    await User.where({ email: email }).update({ password: tempPassword });
+    return res.status("200").json({ tempPassword: tempPassword });
+  }
+};
