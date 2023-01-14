@@ -29,8 +29,7 @@ export const getMaterial = async (req, res) => {
 
 //👉 Materials Puzzle과 관련된 함수
 export const createPuzzle = async (req, res) => {
-  // TODO : 이미지 업로드가 완료되었으면, 관련 파일들 넣어주자!
-  
+
   const title = req.body.title;
   const userObjectId = await User.findOne({email : req.loggedInUser});
 

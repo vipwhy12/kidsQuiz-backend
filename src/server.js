@@ -23,7 +23,7 @@ const secretKey = process.env.JWT_SECRET
 
 const logger = morgan("dev");
 const app = express();  
-const PORT = 3300;
+const PORT =  5000;
 
 
 app.use(express.urlencoded({extended: false }));
