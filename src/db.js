@@ -20,7 +20,7 @@
 // db.on("error", handleError); //error 이벤트가 발생할 때마다 handleError 실행 ); 
 
 
-
+//🌟유나 DB 추가
 import mongoose from "mongoose";
 
 // mongoose.connect("mongodb://10.0.10.84:27017",{
