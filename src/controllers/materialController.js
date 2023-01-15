@@ -18,7 +18,7 @@ export const getMaterial = async (req, res) => {
 
   try{
     const findPuzzle = await Puzzle.find({ user : userObjectId });
-    const findMultipleChoice = await MultipleChoice({ user : userObjectId });
+    const findMultipleChoice = await MultipleChoice.find({ user : userObjectId });
     return res.status(200).json({Puzzle : findPuzzle, MultipleChoice : findMultipleChoice});
 
   }catch(error){
