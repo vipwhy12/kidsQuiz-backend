@@ -1,15 +1,12 @@
 
 import express from "express";
 
-import { verifyToken, s3ImagesUploadHandler, avatarUploadHandler } from "../middlewares.js";
+import { verifyToken, s3ImagesUploadHandler, avatarUploadHandler, multipleChoiceHandler } from "../middlewares.js";
 import { getMaterial, createPuzzle, createMultipleChoice} from "../controllers/materialController.js"
 
 
 
 const materialRouter = express.Router();
-
-
-
 // materialRouter.post("/multipleChoice", verifyToken, createMultipleChoice);
 
 //🌟미들웨어 합치고 수정본!
