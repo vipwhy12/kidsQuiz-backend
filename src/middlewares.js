@@ -20,7 +20,6 @@ export const getUserId = async(email)=> {
 // 👇 Token 관련 MiddleWare입니다.
 export function verifyToken(req, res, next) {    
   console.log("verifyToken 호출! 🧨 ");
-  console.log(req)
   try {
     req.decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
     
@@ -104,27 +103,59 @@ export const avatarUploadHandler = (req, res, next) => {
   
 }
 
-export const s3ImageUploadHandler = (req, res, next) => {
-	const imageUploader = multer({
-		dest:"uploads/", 
-		limits : {
-			fileSize: 300000000, //단위는 byte (= 3MB)
-		},
-		acl: "public-read",
-		storage: s3imageUploader,
-	}).single('image');
+
+// export const MultipleChoiceHandler = (req, res, next) => {
+//   if (req.body.category == 2){
+//     s3ImagesUploadHandler(req, res, next)
+//   } else{
+//     next()
+//   }
+// }
+
+export const s3ImagesUploadHandler = (req, res, next) => {
+    const avatarUpload = multer({
+      dest:"uploads/", 
+      limits : {
+        fileSize: 3000000, //단위는 byte (= 3MB)
+      },
+      storage: s3imageUploader,
+    }).array('image');
+    
+    avatarUpload(req, res, function (err) {
+        if (err instanceof multer.MulterError) {
+          console.log(err)
+          return res.status(400).send("s3 Upload Multer Error")			// A Multer error occurred when uploading.
+        } else if (err) {
+          console.log(err)
+          return res.status(400)	  // An unknown error occurred when uploading.
+        }
+      next()
+    })
+
+  }
+
+
+// export const s3ImageUploadHandler = (req, res, next) => {
+// 	const imageUploader = multer({
+// 		dest:"uploads/", 
+// 		limits : {
+// 			fileSize: 300000000, //단위는 byte (= 3MB)
+// 		},
+// 		acl: "public-read",
+// 		storage: s3imageUploader,
+// 	}).single('image');
 	
-	imageUploader(req, res, function (err) {
-		if (err instanceof multer.MulterError) {
-			console.log(err)
-			return res.status(400).send("s3 Upload Multer Error")			// A Multer error occurred when uploading.
-		} else if (err) {
-			console.log(err)
-			return res.status(400)	  // An unknown error occurred when uploading.
-		}
-		next()
-	})
-};
+// 	imageUploader(req, res, function (err) {
+// 		if (err instanceof multer.MulterError) {
+// 			console.log(err)
+// 			return res.status(400).send("s3 Upload Multer Error")			// A Multer error occurred when uploading.
+// 		} else if (err) {
+// 			console.log(err)
+// 			return res.status(400)	  // An unknown error occurred when uploading.
+// 		}
+// 		next()
+// 	})
+// };
 
 
 
