@@ -14,16 +14,15 @@ dotenv.config();
 //🌟 Material 관련 함수 
 export const getMaterial = async (req, res) => {
   // TODO : 사용자의 아이디와 자료 보여주기
-  const user = await User.findOne({email : req.UserEmail});
-  const usreObejctId = user._id.toString();
+  const userObjectId = await User.findOne({email : req.loggedInUser});
 
   try{
-    const findPuzzle = await Puzzle.find({user :usreObejctId});
-    const findMultipleChoice = await MultipleChoice({user : usreObejctId });
+    const findPuzzle = await Puzzle.find({ user : userObjectId });
+    const findMultipleChoice = await MultipleChoice({ user : userObjectId });
     return res.status(200).json({Puzzle : findPuzzle, MultipleChoice : findMultipleChoice});
-  
+
   }catch(error){
-    return res.status(419).json({message : "💥err:"  + error});
+    return res.status(419).json({message : "💥getMaterial Error:💥"  + error});
   }
 };
 
