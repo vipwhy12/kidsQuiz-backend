@@ -26,10 +26,9 @@ const app = express();
 const PORT =  5000;
 
 
-app.use(express.urlencoded({extended: false }));
 app.use(express.text()); 
 app.use(express.json()); //string을 받아서 json으로 바꿔주는 middleware (JSON.parse를 해준다고 생각하면 됨)
-
+app.use(express.urlencoded({extended: false }));
 
 app.use(cors);
 app.use("/", globalRouter);
