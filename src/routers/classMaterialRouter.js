@@ -1,14 +1,14 @@
 import express from "express";
+import { verify } from "jsonwebtoken";
 
-// import { verifyToken } from "../middlewares";
-import { getClassMaterial } from "../controllers/materialController.js";
+import {createClassMaterial, getClassMaterial} from "../controllers/materialController.js"
+import { verifyToken } from "../middlewares.js";
 import materialRouter from "./materialRouter.js";
 
 const classMaterialRouter = express.Router();
 
 // classMaterialRouter.get("/", verifyToken, getClassMaterial);
-// materialRouter.get("/", checkToken, getMaterial);
-// materialRouter.route("/puzzle").all(checkToken).post(s3ImageUploadHandler, createPuzzle);
-// // materialRouter.route("/puzzle").all(checkToken).delete(deletePuzzle);
+classMaterialRouter.route("/").all(verifyToken).post(createClassMaterial);
+
 
 export default classMaterialRouter;
