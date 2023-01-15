@@ -20,12 +20,13 @@ export const getUserId = async(email)=> {
 // 👇 Token 관련 MiddleWare입니다.
 export function verifyToken(req, res, next) {    
   console.log("verifyToken 호출! 🧨 ");
+
   try {
     req.decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
-    
     console.log("검증된 토큰! 🔑", req.decoded);
     console.log("토큰의 id! 🔑", req.decoded.id);
     req.loggedInUser = req.decoded.id; 
+    req.query = req.query;
     return next();
   }
     
@@ -82,6 +83,7 @@ const s3imageUploader = multerS3 ({
 
 
 export const avatarUploadHandler = (req, res, next) => {
+  console.log("avatarUploader🚀🚀🚀")
   const avatarUpload = multer({
   dest:"uploads/", 
   limits : {
