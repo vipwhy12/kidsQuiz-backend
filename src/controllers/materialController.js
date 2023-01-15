@@ -1,6 +1,7 @@
+import User from "../models/Users.js";
+import Image from "../models/Images.js";
 import Puzzle from "../models/Puzzles.js";
 import Material from "../models/Materials.js";
-import User from "../models/Users.js";
 import MultipleChoice from "../models/MultipleChoice.js";
 
 import jwt from "jsonwebtoken";
@@ -89,11 +90,33 @@ export const createMultipleChoice = async (req, res) => {
 }
 
 
-// 👉 Materials Image관련 함수
+// 👉 Materials Image관련 함수 (다중파일버전)
 export const createImage = async (req, res) => {
-  console.log(req.files);
-  console.log(req.files[0].location)
-  console.log(req.files[1].location)
+  const userObjectId = await User.findOne({email : req.loggedInUser});
+  let imageList = []
+  let status
+
+
+  for(let num = 0; num < req.files.length; num++){
+    imageList[num] = req.files[num].location
+  }
+
+  imageList.forEach((element) => {
+    // console.log("💊💊💊💊💊💊💊💊💊" + element)
+
+    try {
+      console.log("🩻 Imeage 생성을 시작합니다.");
+      Image.create({
+        image : element, 
+        user : userObjectId
+      })
+      console.log("🩻 Imeage 생성을 완료했습니다.");
+    } catch(error) {
+        return res.status(500).json({ message: "✨Imeage 생성에 실패하였습니다.✨필수 데이터 확인 후 백엔드 개발자에게 문의해주세요 : " + error});
+    }
+  })
+
+  return res.status(200).json({ message : "🩻 Imeage 생성을 완료했습니다."});
 }
 
 
@@ -104,9 +127,6 @@ export const createImage = async (req, res) => {
 //   console.log(req.files[0].location)
 //   console.log(req.files[1].location)
 // }
-
-
-
 
 
 //=============================================
