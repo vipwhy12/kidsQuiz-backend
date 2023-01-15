@@ -7,9 +7,6 @@ import { getMaterial, createPuzzle, createMultipleChoice} from "../controllers/m
 
 
 const materialRouter = express.Router();
-
-
-
 // materialRouter.post("/multipleChoice", verifyToken, createMultipleChoice);
 
 //🌟미들웨어 합치고 수정본!
