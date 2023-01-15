@@ -1,8 +1,8 @@
 
 import express from "express";
 
-import { verifyToken, s3ImagesUploadHandler, avatarUploadHandler, multipleChoiceHandler } from "../middlewares.js";
-import { getMaterial, createPuzzle, createMultipleChoice} from "../controllers/materialController.js"
+import { verifyToken, s3ImagesUploadHandler, avatarUploadHandler } from "../middlewares.js";
+import { getMaterial, createPuzzle, createMultipleChoice, createImage} from "../controllers/materialController.js"
 
 
 
@@ -13,9 +13,7 @@ const materialRouter = express.Router();
 materialRouter.get("/", verifyToken, getMaterial);
 materialRouter.route("/puzzle").all(verifyToken).post(avatarUploadHandler, createPuzzle);
 materialRouter.route("/multipleChoice").all(verifyToken).post(s3ImagesUploadHandler, createMultipleChoice);
-// materialRouter.route("/image").all(verifyToken).post(s3ImagesUploadHandler, createMultipleChoice);
-
-
+materialRouter.route("/image").all(verifyToken).post(s3ImagesUploadHandler, createImage);
 
 
 export default materialRouter;
