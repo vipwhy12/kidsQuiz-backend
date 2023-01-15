@@ -57,16 +57,16 @@ export const createMultipleChoice = async (req, res) => {
   const {question, category, answer} = req.body;
   const userObjectId = await User.findOne({email : req.loggedInUser});
 
-  let fistChoice
+  let firstChoice
   let secondChoice
 
   //객관식 문제가 한글일때!
   if (category == 1){
-    fistChoice = req.body.fistChoice;
+    firstChoice = req.body.firstChoice;
     secondChoice = req.body.secondChoice;    
   }else if (category == 2) {
     // TODO : 다중파일 처리하자 POSTMAN 해결해볼것! 
-    fistChoice = req.files[0].location;
+    firstChoice = req.files[0].location;
     secondChoice = req.files[1].location;
   } else {
     return res.status(500).json({ message: "🐋 MultipleChoice Category 선택 실패"});
@@ -77,7 +77,7 @@ export const createMultipleChoice = async (req, res) => {
     await MultipleChoice.create({
       question : question, 
       category : category,
-      fistChoice : fistChoice,
+      firstChoice : firstChoice,
       secondChoice : secondChoice, 
       answer : answer,
       user : userObjectId
