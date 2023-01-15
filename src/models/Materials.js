@@ -18,6 +18,11 @@ const MaterialsSchema = new mongoose.Schema({
   multipleChoice : [{
     type : mongoose.Schema.Types.ObjectId,
     ref : "multiple_choice"
+  }], 
+
+  image : [{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "images"
   }]
 
 });
