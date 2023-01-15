@@ -7,7 +7,7 @@ if (process.platform != "linux") {
 }
 console.log(dbAddr);
 
-mongoose.connect(`mongodb://${dbAddr}:27017`,{
+mongoose.connect(`mongodb://${dbAddr}:27017/kidsquiz`,{
 	useNewUrlParser:true, 
 	useUnifiedTopology:true, 
 	} //두번째 인자 부분은 아래에서 설명
