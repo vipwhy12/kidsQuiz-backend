@@ -104,13 +104,16 @@ export const avatarUploadHandler = (req, res, next) => {
 }
 
 
-// export const MultipleChoiceHandler = (req, res, next) => {
-//   if (req.body.category == 2){
-//     s3ImagesUploadHandler(req, res, next)
-//   } else{
-//     next()
-//   }
-// }
+export const multipleChoiceHandler = (req, res, next) => {
+
+  console.log(req.body)
+  // if (req.body.category == 2){
+  //   s3ImagesUploadHandler(req, res, next)
+  // } else{
+  //   next()
+  // }
+  next()
+}
 
 export const s3ImagesUploadHandler = (req, res, next) => {
     const avatarUpload = multer({

@@ -1,7 +1,7 @@
 
 import express from "express";
 
-import { verifyToken, s3ImagesUploadHandler, avatarUploadHandler } from "../middlewares.js";
+import { verifyToken, s3ImagesUploadHandler, avatarUploadHandler, multipleChoiceHandler } from "../middlewares.js";
 import { getMaterial, createPuzzle, createMultipleChoice} from "../controllers/materialController.js"
 
 
