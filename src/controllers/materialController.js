@@ -114,8 +114,9 @@ export const createImage = async (req, res) => {
 
 export const getClassMaterial = async (req, res) => {
   // 사용자가 가지고 있는 classMaterial 목록 불러오기 
-  const userObjectId = await User.findOne({email : req.loggedInUser});
+  const userObjectId = await User.findOne({email : req.loggedInUser})
   const MaterialList = await Material.find({user : userObjectId});
+
   return res.status(200).json({ ClassMaterial : MaterialList });
   
 }
