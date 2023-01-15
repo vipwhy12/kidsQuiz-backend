@@ -9,6 +9,31 @@ export const postImage = (req,res) => {
     res.send("OK")
 }
 
+//!!!!! 새로 추가 
+export const getClassHost = async(req,res) => {
+    let result ;
+    const { room } = req.query; // class ObjectId
+    const id = await getUserId(req.loggedInUser);
+    const user = await User.findOne(id);
+    //room의 user 값이 id와 동일하지 확인 
+    const classFound = await Class.findById(room);
+    console.log("나와라!", classFound)
+    if (classFound == "" || classFound == null) {
+        return res.status(401).json({ message:"Can't found the Class 😢" });
+    }
+    if (classFound.user.toString() != id) {
+        result  = false
+    }
+    else {
+        result = true
+    }
+    const data = {
+        'result' :result, 
+        'name' : user.name
+    }
+    return res.status(200).json(data);
+}
+
 export const getClassList = async(req, res) => {
     console.log("getClassList 호출 🧤 ")
     const id = await getUserId(req.loggedInUser);
@@ -20,6 +45,7 @@ export const getClassList = async(req, res) => {
     let today = new Date();   
     console.log("현재 시간: ⏰",today);
     const classes = await Class.find({user:id, startDateTime: { $gte: today } })
+    console.log(classes)
     return res.status(200).json(classes)
 }
 
