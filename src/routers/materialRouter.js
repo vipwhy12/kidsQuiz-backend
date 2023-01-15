@@ -16,6 +16,9 @@ const materialRouter = express.Router();
 materialRouter.get("/", verifyToken, getMaterial);
 materialRouter.route("/puzzle").all(verifyToken).post(avatarUploadHandler, createPuzzle);
 materialRouter.route("/multipleChoice").all(verifyToken).post(s3ImagesUploadHandler, createMultipleChoice);
+// materialRouter.route("/image").all(verifyToken).post(s3ImagesUploadHandler, createMultipleChoice);
+
+
 
 
 export default materialRouter;

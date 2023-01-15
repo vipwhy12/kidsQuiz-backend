@@ -90,6 +90,16 @@ export const createMultipleChoice = async (req, res) => {
   }
 }
 
+
+// 👉 Materials Image관련 함수
+export const createImage = async (req, res) => {
+  console.log(req.files);
+  console.log(req.files[0].location)
+  console.log(req.files[1].location)
+}
+
+
+
 //💔다중이미지 테스트입니다. 
 // export const MultipleImageTest = async (req, res) => {
 //   console.log(req.files);
