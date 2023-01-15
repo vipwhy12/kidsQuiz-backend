@@ -114,43 +114,36 @@ export const createImage = async (req, res) => {
 
 export const getClassMaterial = async (req, res) => {
   // 사용자가 가지고 있는 classMaterial 목록 불러오기 
-  const user = await User.findOne({email : req.UserEmail});
-  const MaterialList = await Material.find({user : user._id});
+  const userObjectId = await User.findOne({email : req.loggedInUser});
+  const MaterialList = await Material.find({user : userObjectId});
   return res.status(200).json({ ClassMaterial : MaterialList });
+  
 }
 
 export const createClassMaterial = async (req, res) => {
-  // 사용자가 가지고 있는 classMaterial 목록 불러오기 
+  const { title, puzzle, multipleChoice} = req.body
+  const userObjectId = await User.findOne({email : req.loggedInUser})
 
-  const user = await User.findOne({email : req.UserEmail});
-  const { title, createAt, puzzle, multipleChoice} = req.body;
-  // console.log("이것은 ClassMaterial을 만드는 목록입니다.");
-  // console.log(req.UserEmail);
-  // console.log(user._id); 
-  // console.log(title, createAt, puzzle, multipleChoice);
-  
-  let puzzle_arr = [];
-  let multipleChoice_arr = [];
+  let puzzleList = []
+  let multipleChoiceList = []
+  let today = new Date(); 
 
-  for (let i=0; i < puzzle.length; i++){
-    puzzle_arr[i] = puzzle[i].ObjectId;
-    console.log(i);
+  for(let i=0; i < puzzle.length; i++){
+    puzzleList[i] = puzzle[i].objectId
   }
 
-  for (let i=0; i < multipleChoice.length; i++){
-    multipleChoice_arr[i] = multipleChoice[i].ObjectId;
-    console.log(i);
+  for(let i=0; i < multipleChoice.length; i++){
+    multipleChoiceList[i] = multipleChoice[i].objectId
   }
-  // console.log(puzzle[0].ObjectId);
-  console.log(arr);
+
   try {
     console.log("✨Class Materials 생성을 시작합니다.");
     await Material.create({
       title : title, 
-      createAt : createAt,
-      user : user.id.toString(),
-      puzzle : puzzle_arr,
-      multipleChoice : multipleChoice_arr
+      createdAt : today,
+      user : userObjectId,
+      puzzle : puzzleList,
+      multipleChoice : multipleChoiceList
     })
     console.log("✨Class Materials 생성을 완료하였습니다.✨");
     return res.status(200).json({ message : "✨Class Materials 생성을 완료하였습니다.✨"})
