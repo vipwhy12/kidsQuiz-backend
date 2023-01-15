@@ -30,6 +30,11 @@ export const getMaterial = async (req, res) => {
 export const createPuzzle = async (req, res) => {
   const title = req.body.title;
   const userObjectId = await User.findOne({email : req.loggedInUser});
+  
+  console.log("🧩🧩🧩🧩🧩" + req.file.location);
+  console.log("🧩🧩🧩🧩🧩" + req.file.location);
+  console.log(req.file)
+  console.log(req.files)
 
   if (title){
     try {
