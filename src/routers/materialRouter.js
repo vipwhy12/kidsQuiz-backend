@@ -10,7 +10,7 @@ const materialRouter = express.Router();
 // materialRouter.post("/multipleChoice", verifyToken, createMultipleChoice);
 
 //🌟미들웨어 합치고 수정본!
-// materialRouter.get("/", verifyToken, getMaterial);
+materialRouter.get("/", verifyToken, getMaterial);
 materialRouter.route("/puzzle").all(verifyToken).post(avatarUploadHandler, createPuzzle);
 materialRouter.route("/multipleChoice").all(verifyToken).post(s3ImagesUploadHandler, createMultipleChoice);
 
