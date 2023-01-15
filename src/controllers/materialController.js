@@ -46,6 +46,8 @@ export const createPuzzle = async (req, res) => {
         .status(500)
         .json({ message: "🧩 Puzzle 생성에 실패하였습니다. 필수 데이터 확인 후 백엔드 개발자에게 문의해주세요" + error });
     }
+  } else {
+    return res.status(403).json({ message : "🧩 title이 없습니다."})
   }
 }
 
