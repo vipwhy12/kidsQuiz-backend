@@ -2,7 +2,7 @@
 import express from "express";
 
 import { verifyToken, s3ImagesUploadHandler, avatarUploadHandler } from "../middlewares.js";
-import { getMaterial, createPuzzle, createMultipleChoice, createImage} from "../controllers/materialController.js"
+import { getMaterial, createPuzzle, createMultipleChoice, createImage } from "../controllers/materialController.js"
 
 
 
@@ -14,6 +14,8 @@ materialRouter.get("/", verifyToken, getMaterial);
 materialRouter.route("/puzzle").all(verifyToken).post(avatarUploadHandler, createPuzzle);
 materialRouter.route("/multipleChoice").all(verifyToken).post(s3ImagesUploadHandler, createMultipleChoice);
 materialRouter.route("/image").all(verifyToken).post(s3ImagesUploadHandler, createImage);
+
+// materialRouter.route("/live/image").all(verifyToken).post(readliveImage);
 
 
 export default materialRouter;
