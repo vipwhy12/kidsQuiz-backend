@@ -32,12 +32,12 @@ app.use(express.urlencoded({extended: false }));
 
 app.use(cors);
 app.use("/api", globalRouter);
-app.use("/user", userRouter);
-app.use("/class", classRouter);
+app.use("/api/user", userRouter);
+app.use("/api/class", classRouter);
 // app.use("/live", liveRouter);
-app.use("/material", materialRouter);
-app.use("/userinfo", userInfoRouter);
-app.use("/classMaterial", classMaterialRouter);
+app.use("/api/material", materialRouter);
+app.use("/api/userinfo", userInfoRouter);
+app.use("/api/classMaterial", classMaterialRouter);
 
 
 const handleListening = () => console.log(`✅ Server listenting on port http://localhost:${PORT} 🚀 `);
