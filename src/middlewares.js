@@ -32,7 +32,8 @@ export function verifyToken(req, res, next) {
     
     // 인증 실패 
   catch(error) {
-    console.error("토큰 검증 중 에러 발생. 💊 ");
+    console.error("토큰 검증 중 에러 발생. 💊");
+
     if (error.name === 'TokenExpireError') {
       return res.status(419).json({
         code: 419,
@@ -85,7 +86,7 @@ const s3imageUploader = multerS3 ({
 export const avatarUploadHandler = (req, res, next) => {
   console.log("avatarUploader🚀🚀🚀")
   const avatarUpload = multer({
-  dest:"uploads/", 
+  dest : "uploads/", 
   limits : {
     fileSize: 3000000, //단위는 byte (= 3MB)
   },
@@ -124,7 +125,6 @@ export const s3ImagesUploadHandler = (req, res, next) => {
         }
       next()
     })
-
   }
 
 
