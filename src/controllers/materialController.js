@@ -31,17 +31,13 @@ export const createPuzzle = async (req, res) => {
   const title = req.body.title;
   const userObjectId = await User.findOne({email : req.loggedInUser});
   
-  console.log("🧩🧩🧩🧩🧩" + req.file.location);
-  console.log("🧩🧩🧩🧩🧩" + req.file.location);
-  console.log(req.file)
-  console.log(req.files)
 
   if (title){
     try {
       console.log("🧩 Puzzle 생성을 시작합니다.");
       await Puzzle.create({
         title : title, 
-        image : req.files[0].location,
+        image : req.file.location,
         user : userObjectId
       })
       console.log("🧩 Puzzle 생성을 완료하였습니다.");
