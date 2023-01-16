@@ -31,7 +31,7 @@ app.use(express.json()); //string을 받아서 json으로 바꿔주는 middlewar
 app.use(express.urlencoded({extended: false }));
 
 app.use(cors);
-app.use("/", globalRouter);
+app.use("/api", globalRouter);
 app.use("/user", userRouter);
 app.use("/class", classRouter);
 // app.use("/live", liveRouter);
