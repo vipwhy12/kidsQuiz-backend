@@ -22,7 +22,7 @@ export const postLogin = async(req, res) => {
     try {
         const id = email;  
         const token = jwt.sign({id}, process.env.JWT_SECRET, {
-            expiresIn: "60m", // 60분
+            expiresIn: "660m", // 60분
             issuer: "snowball"
         });
         return res.status(200).json({message: '🎉 토큰이 발급되었습니다.', token });
