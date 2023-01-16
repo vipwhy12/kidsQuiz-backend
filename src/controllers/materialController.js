@@ -7,7 +7,6 @@ import MultipleChoice from "../models/MultipleChoice.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
-import {getUserId} from "../middlewares.js";
 dotenv.config();
 
 
@@ -31,7 +30,6 @@ export const createPuzzle = async (req, res) => {
   const title = req.body.title;
   const userObjectId = await User.findOne({email : req.loggedInUser});
   
-
   if (title){
     try {
       console.log("🧩 Puzzle 생성을 시작합니다.");
@@ -97,7 +95,6 @@ export const createImage = async (req, res) => {
   const userObjectId = await User.findOne({email : req.loggedInUser});
   let imageList = []
 
-
   for(let num = 0; num < req.files.length; num++){
     imageList[num] = req.files[num].location
   }
@@ -106,18 +103,18 @@ export const createImage = async (req, res) => {
     // console.log("💊💊💊💊💊💊💊💊💊" + element)
 
     try {
-      console.log("🩻 Imeage 생성을 시작합니다.");
+      console.log("🩻 Image 생성을 시작합니다.");
       Image.create({
         image : element, 
         user : userObjectId
       })
-      console.log("🩻 Imeage 생성을 완료했습니다.");
+      console.log("🩻 Image 생성을 완료했습니다.");
     } catch(error) {
-        return res.status(500).json({ message: "✨Imeage 생성에 실패하였습니다.✨필수 데이터 확인 후 백엔드 개발자에게 문의해주세요 : " + error});
+        return res.status(500).json({ message: "Image 생성에 실패하였습니다.✨필수 데이터 확인 후 백엔드 개발자에게 문의해주세요 : " + error});
     }
   })
 
-  return res.status(200).json({ message : "🩻 Imeage 생성을 완료했습니다."});
+  return res.status(200).json({ message : "🩻 Image 생성을 완료했습니다."});
 }
 
 

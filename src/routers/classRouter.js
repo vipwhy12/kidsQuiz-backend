@@ -14,6 +14,9 @@ classRouter.route("/:id([0-9a-z]{24})")
     .post(avatarUploadHandler,postClass)
     .delete(deleteClass)
 
+
+
+
 export default classRouter;
 
 
