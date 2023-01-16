@@ -17,7 +17,8 @@ export const postLogin = async(req, res) => {
     if (user.password !== password) {
     return res.status(401).json({ message:"Password does not match 😢" });
     }
-
+    const name = user.name
+    console.log("유저 이름🔥", name)
     //! 🎉 토큰 발급
     try {
         const id = email;  
@@ -25,7 +26,7 @@ export const postLogin = async(req, res) => {
             expiresIn: "660m", // 60분
             issuer: "snowball"
         });
-        return res.status(200).json({message: '🎉 토큰이 발급되었습니다.', token });
+        return res.status(200).json({message: '🎉 토큰이 발급되었습니다.', token , name});
         }
     catch (error) {
         console.error("토큰 발급 중 에러 발생. 💊 Details:", error);
