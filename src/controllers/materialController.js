@@ -91,40 +91,50 @@ export const createMultipleChoice = async (req, res) => {
 
 
 // 👉 Materials Image관련 함수 (다중파일버전)
+// export const createImage = async (req, res) => {
+//   const userObjectId = await User.findOne({email : req.loggedInUser});
+//   let imageList = []
+
+//   for(let num = 0; num < req.files.length; num++){
+//     imageList[num] = req.files[num].location
+//   }
+
+//   imageList.forEach((element) => {
+//     // console.log("💊💊💊💊💊💊💊💊💊" + element)
+
+//     try {
+//       console.log("🩻 Image 생성을 시작합니다.");
+//       Image.create({
+//         image : element, 
+//         user : userObjectId
+//       })
+//       console.log("🩻 Image 생성을 완료했습니다.");
+//     } catch(error) {
+//         return res.status(500).json({ message: "Image 생성에 실패하였습니다.✨필수 데이터 확인 후 백엔드 개발자에게 문의해주세요 : " + error});
+//     }
+//   })
+
+//   return res.status(200).json({ message : "🩻 Image 생성을 완료했습니다."});
+// }
+
+
 export const createImage = async (req, res) => {
   const userObjectId = await User.findOne({email : req.loggedInUser});
-  let imageList = []
 
-  for(let num = 0; num < req.files.length; num++){
-    imageList[num] = req.files[num].location
-  }
-
-  imageList.forEach((element) => {
-    // console.log("💊💊💊💊💊💊💊💊💊" + element)
-
-    try {
-      console.log("🩻 Image 생성을 시작합니다.");
-      Image.create({
-        image : element, 
-        user : userObjectId
-      })
-      console.log("🩻 Image 생성을 완료했습니다.");
-    } catch(error) {
-        return res.status(500).json({ message: "Image 생성에 실패하였습니다.✨필수 데이터 확인 후 백엔드 개발자에게 문의해주세요 : " + error});
-    }
-  })
-
-  return res.status(200).json({ message : "🩻 Image 생성을 완료했습니다."});
+  try {
+    console.log("🩻 Image 생성을 시작합니다.");
+    await Image.create({
+      image : req.file.location,
+      user : userObjectId
+    })
+    console.log("🩻 Image 생성을 완료했습니다");
+    return res.status(200).json({ message : "🩻 Image 생성을 완료했습니다"})
+  } catch (error){
+    return res
+      .status(500)
+      .json({ message: "🩻 Image 생성에 실패하였습니다. 필수 데이터 확인 후 백엔드 개발자에게 문의해주세요" + error });
+  } 
 }
-
-
-
-//💔다중이미지 테스트입니다. 
-// export const MultipleImageTest = async (req, res) => {
-//   console.log(req.files);
-//   console.log(req.files[0].location)
-//   console.log(req.files[1].location)
-// }
 
 
 //=============================================
