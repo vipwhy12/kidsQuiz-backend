@@ -16,10 +16,10 @@ materialRouter.route("/multipleChoice").all(verifyToken).post(s3ImagesUploadHand
 
 
 //Material 이미지 다중파일 버전
-// materialRouter.route("/image").all(verifyToken).post(s3ImagesUploadHandler, createImage);
+materialRouter.route("/image").all(verifyToken).post(s3ImagesUploadHandler, createImage);
 
 //Material 이미지 싱글파일 버전
-materialRouter.route("/image").all(verifyToken).post(avatarUploadHandler, createImage);
+// materialRouter.route("/image").all(verifyToken).post(avatarUploadHandler, createImage);
 
 
 
