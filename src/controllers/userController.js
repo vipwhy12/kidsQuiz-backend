@@ -25,7 +25,7 @@ export const postLogin = async(req, res) => {
             expiresIn: "660m", // 60분
             issuer: "snowball"
         });
-        return res.status(200).json({message: '🎉 토큰이 발급되었습니다.', token });
+        return res.status(200).json({message: '🎉 토큰이 발급되었습니다.', token , name: user.name});
         }
     catch (error) {
         console.error("토큰 발급 중 에러 발생. 💊 Details:", error);
