@@ -15,9 +15,9 @@ export const getMaterial = async (req, res) => {
   // TODO : 사용자의 아이디와 자료 보여주기
   const userObjectId = await User.findOne({email : req.loggedInUser});
   try{
-    const findPuzzle = await Puzzle.findById({ userObjectId });
-    const findMultipleChoice = await MultipleChoice.findById({ userObjectId });
-    const findImage = await Image.findById({ userObjectId });
+    const findPuzzle = await Puzzle.find({ user : userObjectId });
+    const findMultipleChoice = await MultipleChoice.find({ user : userObjectId });
+    const findImage = await Image.find({ user : userObjectId })
     return res.status(200).json({Puzzle : findPuzzle, MultipleChoice : findMultipleChoice, Image : findImage });
   }catch(error){
     return res.status(419).json({message : "💥getMaterial Error:💥"  + error});
