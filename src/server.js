@@ -22,7 +22,7 @@ const secretKey = process.env.JWT_SECRET
 
 const logger = morgan("dev");
 const app = express();  
-const PORT =  3300;
+const PORT =  5000;
 
 app.use(express.text()); 
 app.use(express.json()); //string을 받아서 json으로 바꿔주는 middleware (JSON.parse를 해준다고 생각하면 됨)
@@ -38,5 +38,5 @@ app.use("/api/userinfo", userInfoRouter);
 app.use("/api/classMaterial", classMaterialRouter);
 
 
-const handleListening = () => console.log(`✅ Server listenting on port http://localhost:${PORT} 🚀 `);
+const handleListening = () => console.log(`✅ Server listenting on port http://13.125.34.115:${PORT} 🚀 `);
 app.listen(PORT, handleListening);
