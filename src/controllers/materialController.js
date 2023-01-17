@@ -18,7 +18,7 @@ export const getMaterial = async (req, res) => {
     const findPuzzle = await Puzzle.find({ user : userObjectId });
     const findMultipleChoice = await MultipleChoice.find({ user : userObjectId });
     const findImage = await Image.find({ user : userObjectId })
-    return res.status(200).json({Puzzle : findPuzzle, MultipleChoice : findMultipleChoice, Image : findImage });
+    return res.status(200).json({ puzzle : findPuzzle, multipleChoice : findMultipleChoice, image : findImage });
   }catch(error){
     return res.status(419).json({message : "💥getMaterial Error:💥"  + error});
   }
@@ -142,11 +142,13 @@ export const createImage = async (req, res) => {
 
 export const getClassMaterial = async (req, res) => {
   // 사용자가 가지고 있는 classMaterial 목록 불러오기 
-  const userObjectId = await User.findOne({email : req.loggedInUser})
-  const MaterialList = await Material.find({user : userObjectId});
-
-  return res.status(200).json({ ClassMaterial : MaterialList });
-  
+  try {
+    const userObjectId = await User.findOne({email : req.loggedInUser})
+    const MaterialList = await Material.find({user : userObjectId});
+    return res.status(200).json({ classMaterial : MaterialList });
+  }catch (err){
+    return res.status(404).json({ err });
+  }
 }
 
 export const createClassMaterial = async (req, res) => {
@@ -177,6 +179,7 @@ export const createClassMaterial = async (req, res) => {
       createdAt : today,
       user : userObjectId,
       puzzle : puzzleList,
+      image : imageList,
       multipleChoice : multipleChoiceList
     })
     console.log("✨Class Materials 생성을 완료하였습니다.✨");
