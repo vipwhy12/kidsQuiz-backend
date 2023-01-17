@@ -48,7 +48,9 @@ export const readMultipleChoice = async (req, res) => {
     const _id = req.body._id
     const findMaterial = await Material.findById(_id)
 
-    let multipleChoiceList = findMaterial.MultipleChoice
+    console.log(findMaterial);
+
+    let multipleChoiceList = findMaterial.multipleChoice
     let liveMultipleChoiceList = []
 
     for(let i = 0; i < multipleChoiceList.length ;i++){
