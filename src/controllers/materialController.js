@@ -69,8 +69,8 @@ export const createMultipleChoice = async (req, res) => {
     console.log("🚀req.files 찍어봄 ", req.files)
     console.log("🚀🚀req.files[0] 찍어봄 ", req.files[0])
     console.log("🚀🚀req.files[1] 찍어봄 ", req.files[1])
-    // firstChoice = req.files[0].location;
-    // secondChoice = req.files[1].location;
+    firstChoice = req.files[0].location;
+    secondChoice = req.files[1].location;
     //! 유진 테스트 종료
 
   } else {
