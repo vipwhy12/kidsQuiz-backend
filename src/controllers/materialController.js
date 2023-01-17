@@ -18,6 +18,8 @@ export const getMaterial = async (req, res) => {
     const findPuzzle = await Puzzle.find({ user : userObjectId });
     const findMultipleChoice = await MultipleChoice.find({ user : userObjectId });
     const findImage = await Image.find({ user : userObjectId })
+
+    
     return res.status(200).json({ puzzle : findPuzzle, multipleChoice : findMultipleChoice, image : findImage });
   }catch(error){
     return res.status(419).json({message : "💥getMaterial Error:💥"  + error});
@@ -157,8 +159,11 @@ export const getClassMaterial = async (req, res) => {
 }
 
 export const createClassMaterial = async (req, res) => {
-  const { title, puzzle, multipleChoice, image} = req.body
+  
+  const { title, puzzle, multipleChoice, image } = req.body
   const userObjectId = await User.findOne({email : req.loggedInUser})
+
+  console.log(title, puzzle, multipleChoice, image)
 
   let puzzleList = []
   let multipleChoiceList = []
@@ -193,5 +198,3 @@ export const createClassMaterial = async (req, res) => {
     return res.status(500).json({ message: "✨Class Materials 생성에 실패하였습니다.✨필수 데이터 확인 후 백엔드 개발자에게 문의해주세요 : " + error});
   }
 }
-
-
