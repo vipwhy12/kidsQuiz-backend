@@ -31,6 +31,7 @@ export const getClassHost = async(req,res) => {
         'result' :result, 
         'name' : user.name
     }
+    console.log("📄 호스트인가?  ", data)
     return res.status(200).json(data);
 }
 

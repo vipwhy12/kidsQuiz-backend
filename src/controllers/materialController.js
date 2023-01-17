@@ -65,8 +65,13 @@ export const createMultipleChoice = async (req, res) => {
     secondChoice = req.body.secondChoice;    
   }else if (category == 2) {
     // TODO : 다중파일 처리하자 POSTMAN 해결해볼것! 
-    firstChoice = req.files[0].location;
-    secondChoice = req.files[1].location;
+    //! 유진 테스트 시작
+    console.log("🚀req.files 찍어봄 ", req.files)
+    console.log("🚀🚀req.files[0] 찍어봄 ", req.files[0])
+    console.log("🚀🚀req.files[1] 찍어봄 ", req.files[1])
+    // firstChoice = req.files[0].location;
+    // secondChoice = req.files[1].location;
+    //! 유진 테스트 종료
 
   } else {
     return res.status(500).json({ message: "🐋 MultipleChoice Category 선택 실패"});
