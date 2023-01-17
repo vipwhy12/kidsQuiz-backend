@@ -13,12 +13,12 @@ export const readliveImage = async (req, res) => {
     let imageList = findMaterial.image
     let liveImageList = []
     
-    for(let i = 0; i < liveImageList.length ;i++){
+    for(let i = 0; i < imageList.length ;i++){
       liveImageList[i] = await Image.findById(imageList[i])
     }
 
     console.log("✨live Image 조회 성공.✨")
-    return res.status(200).json({ images : liveImageList })
+    return res.status(200).json({ image : liveImageList })
   }catch(error) {
     return res.status(500).json({ message: "✨live Image 조회 실패 : " + error});
   }
