@@ -150,11 +150,12 @@ export const getClassMaterial = async (req, res) => {
 }
 
 export const createClassMaterial = async (req, res) => {
-  const { title, puzzle, multipleChoice} = req.body
+  const { title, puzzle, multipleChoice, image} = req.body
   const userObjectId = await User.findOne({email : req.loggedInUser})
 
   let puzzleList = []
   let multipleChoiceList = []
+  let imageList = []
   let today = new Date(); 
 
   for(let i=0; i < puzzle.length; i++){
@@ -163,6 +164,10 @@ export const createClassMaterial = async (req, res) => {
 
   for(let i=0; i < multipleChoice.length; i++){
     multipleChoiceList[i] = multipleChoice[i].objectId
+  }
+
+  for(let i=0; i < image.length; i++){
+    imageList[i] = image[i].objectId
   }
 
   try {
