@@ -189,12 +189,20 @@ export const getClassMaterial  = async(req,res) =>{
     // console.log("dho?")
     console.log("getClassMaterial 함수 실행 해당하는 자료를 담아요")
     const { id } = req.params; //id는 클래스 id 
+
+    // console.log(id)
     const user = await getUserId(req.loggedInUser);
     const classFound = await Class.findById(id);
-    console.log(classFound)
-    const classMaterialId = classFound.classMaterial;
+    try{
+        const classMaterialId = classFound.classMaterial;
+        
+    }catch(err){
+
+    }
+    // console.log(classFound)
+    // const classMaterialId = classFound.classMaterial;
     console.log()
-    const classMaterial = await Material.findById(classMaterialId.toString());
-    console.log("classMaterialId", classMaterial)
-    return res.status(200).json(classMaterial);
+    // const classMaterial = await Material.findById(classMaterialId.toString());
+    // console.log("classMaterialId", classMaterial)
+    // return res.status(200).json(classMaterial);
 }
