@@ -164,7 +164,7 @@ export const createClassMaterial = async (req, res) => {
   const userObjectId = await User.findOne({email : req.loggedInUser})
   console.log(req.body)
   // console.log(re)
-
+  console.log( "여기여여겨겨겨겨겨 타임이야" + today)
   console.log(title, puzzle, multipleChoice, image)
 
   let puzzleList = []
@@ -172,7 +172,7 @@ export const createClassMaterial = async (req, res) => {
   let imageList = []
   let today = new Date(); 
 
-  console.log( "⏰⏰⏰⏰⏰⏰" + today)
+
   
   if(puzzle){
     for(let i=0; i < puzzle.length; i++){
