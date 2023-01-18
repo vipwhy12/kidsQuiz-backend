@@ -1,5 +1,5 @@
 import express from "express";
-import {getClassList, getClassHost, getClass, postNewClass, postClass, deleteClass, postImage } from "../controllers/classController.js";
+import {getClassList, getClassHost, getClass, postNewClass, postClass, deleteClass, postImage, getClassMaterial } from "../controllers/classController.js";
 import {verifyToken, avatarUploadHandler} from "../middlewares.js";
 
 const classRouter = express.Router();
@@ -13,6 +13,11 @@ classRouter.route("/:id([0-9a-z]{24})")
     .get(getClass)
     .post(avatarUploadHandler,postClass)
     .delete(deleteClass)
+
+//들어갈때 한번에 재료 묶음 보내주기
+classRouter.route("/matarial/:id([0-9a-z]{24})").all(verifyToken).get(getClassMaterial)
+
+
 
 
 
