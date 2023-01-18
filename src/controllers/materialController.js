@@ -151,12 +151,14 @@ export const getClassMaterial = async (req, res) => {
   // 사용자가 가지고 있는 classMaterial 목록 불러오기 
   try {
     const userObjectId = await User.findOne({email : req.loggedInUser})
-    const MaterialList = await Material.find({user : userObjectId});
+    console.log(userObjectId._id.toString())
+    const MaterialList = await Material.find({users : userObjectId._id.toString()});
     return res.status(200).json({ classMaterial : MaterialList });
   }catch (err){
-    return res.status(404).json({ err });
+    return res.status(404).json({ message: "classMaterial" + err});
   }
 }
+
 
 export const createClassMaterial = async (req, res) => {
   
