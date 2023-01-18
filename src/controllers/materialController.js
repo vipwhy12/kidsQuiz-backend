@@ -162,6 +162,8 @@ export const createClassMaterial = async (req, res) => {
   
   const { title, puzzle, multipleChoice, image } = req.body
   const userObjectId = await User.findOne({email : req.loggedInUser})
+  console.log(req.body)
+  // console.log(re)
 
   console.log(title, puzzle, multipleChoice, image)
 

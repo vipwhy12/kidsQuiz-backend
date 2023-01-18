@@ -7,8 +7,11 @@ import materialRouter from "./materialRouter.js";
 
 const classMaterialRouter = express.Router();
 
-classMaterialRouter.get("/", verifyToken, getClassMaterial);
-classMaterialRouter.route("/").all(verifyToken).post(createClassMaterial);
+// classMaterialRouter.get("/", verifyToken, getClassMaterial);
+classMaterialRouter.route("/")
+  .all(verifyToken)
+  .get(getClassMaterial)
+  .post(createClassMaterial);
 
 
 export default classMaterialRouter;
