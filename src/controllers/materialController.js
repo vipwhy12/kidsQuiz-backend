@@ -162,7 +162,8 @@ export const createClassMaterial = async (req, res) => {
   
   const { title, puzzle, multipleChoice, image } = req.body
   const userObjectId = await User.findOne({email : req.loggedInUser})
-  console.log(req.body)
+  let today = new Date(); 
+  // console.log(req.body)
   // console.log(re)
   console.log( "여기여여겨겨겨겨겨 타임이야" + today)
   console.log(title, puzzle, multipleChoice, image)
@@ -170,7 +171,7 @@ export const createClassMaterial = async (req, res) => {
   let puzzleList = []
   let multipleChoiceList = []
   let imageList = []
-  let today = new Date(); 
+
 
 
   
