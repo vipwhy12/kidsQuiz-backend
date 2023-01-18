@@ -171,6 +171,8 @@ export const createClassMaterial = async (req, res) => {
   let multipleChoiceList = []
   let imageList = []
   let today = new Date(); 
+
+  console.log( "⏰⏰⏰⏰⏰⏰" + today)
   
   if(puzzle){
     for(let i=0; i < puzzle.length; i++){
