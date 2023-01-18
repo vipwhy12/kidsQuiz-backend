@@ -172,30 +172,27 @@ export const createClassMaterial = async (req, res) => {
   let multipleChoiceList = []
   let imageList = []
 
-  if(puzzle.length !== 0){
     for(let i=0; i < puzzle.length; i++){
       puzzleList[i] = puzzle[i].objectId
-    }
+
   }
 
-  if(multipleChoice.length !== 0){
+
     for(let i=0; i < multipleChoice.length; i++){
       multipleChoiceList[i] = multipleChoice[i].objectId
-    }
+    
   }  
 
-  if(image.length !== 0){
     for(let i=0; i < image.length; i++){
       imageList[i] = image[i].objectId
-    }
   }
 
   
   try {
     console.log("✨Class Materials 생성을 시작합니다.");
-    if (imageList.legnth ===0 || puzzleList.length === 0  || multipleChoiceList.length === 0 ){
-        throw  "비었음!!"
-    }
+    // if (imageList.legnth ===0 || puzzleList.length === 0  || multipleChoiceList.length === 0 ){
+    //     throw  "비었음!!"
+    // }
     await Material.create({
       title : title, 
       createdAt : today,
