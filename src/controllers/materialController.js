@@ -151,9 +151,12 @@ export const getClassMaterial = async (req, res) => {
   // 사용자가 가지고 있는 classMaterial 목록 불러오기 
   try {
     const userObjectId = await User.findOne({email : req.loggedInUser})
-    console.log(userObjectId._id.toString())
-    const MaterialList = await Material.find({users : userObjectId._id.toString()});
-    return res.status(200).json({ classMaterial : MaterialList });
+    const materialList = await Material.find({ users : userObjectId._id})
+
+    console.log(userObjectId._id)
+    console.log(materialList)
+    
+    return res.status(200).json({ classMaterial : materialList });
   }catch (err){
     return res.status(404).json({ message: "classMaterial" + err});
   }
@@ -161,45 +164,43 @@ export const getClassMaterial = async (req, res) => {
 
 
 export const createClassMaterial = async (req, res) => {
-  
   const { title, puzzle, multipleChoice, image } = req.body
   const userObjectId = await User.findOne({email : req.loggedInUser})
+
   let today = new Date(); 
   console.log(req.body)
   console.log(title, puzzle, multipleChoice, image)
+  console.log( "========="+ userObjectId._id)
 
   let puzzleList = []
   let multipleChoiceList = []
   let imageList = []
 
-
-    for(let i=0; i < puzzle.objectId.length; i++){
-      puzzleList[i] = puzzle.objectId[i]
+    for(let i=0; i < puzzle.length; i++){
+      puzzleList[i] = puzzle[i]
   }
 
-    for(let i=0; i < multipleChoice.objectId.length; i++){
-      multipleChoiceList[i] = multipleChoice.objectId[i]
+    for(let i=0; i < multipleChoice.length; i++){
+      multipleChoiceList[i] = multipleChoice[i]
   }  
 
-    for(let i=0; i < image.objectId.length; i++){
-      imageList[i] = image.objectId[i]
+    for(let i=0; i < image.length; i++){
+      imageList[i] = image[i]
   }
 
   try {
     console.log("✨Class Materials 생성을 시작합니다.");
-    // if (imageList.legnth ===0 || puzzleList.length === 0  || multipleChoiceList.length === 0 ){
-    //     throw  "비었음!!"
-    // }
-    await Material.create({
+
+    const test = await Material.create({
       title : title, 
       createdAt : today,
-      user : userObjectId,
+      users : userObjectId._id,
       puzzle : puzzleList,
       image : imageList,
       multipleChoice : multipleChoiceList
     })
     console.log("✨Class Materials 생성을 완료하였습니다.✨");
-    return res.status(200).json({ message : "✨Class Materials 생성을 완료하였습니다.✨"})
+    return res.status(200).json({ message : "✨Class Materials 생성을 완료하였습니다.✨", "test" : test})
   } catch (error){
     return res.status(500).json({ message: "✨Class Materials 생성에 실패하였습니다.✨필수 데이터 확인 후 백엔드 개발자에게 문의해주세요 : " + error});
   }
