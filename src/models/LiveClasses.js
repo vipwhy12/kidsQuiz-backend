@@ -5,7 +5,10 @@ const LiveClassesSchema = new mongoose.Schema({
   startDateTime :{type : Date, required: true},
   studentMaxNum :{type : Number,  required: true},
   classKey :{type : String},
-  classMaterial :{type : String} ,
+  classMaterial :{
+    type : mongoose.Schema.Types.ObjectId, 
+    ref : "Material"
+  } ,
   thumbnail : {type : String, required: true}, 
   user : {
     type : mongoose.Schema.Types.ObjectId, 

@@ -1,6 +1,7 @@
 import Class from "../models/LiveClasses.js"
 import User from "../models/Users.js"
 import {getUserId} from "../middlewares.js"
+import Material from "../models/Materials.js"
 
 
 export const postImage = (req,res) => {
@@ -38,7 +39,6 @@ export const getClassHost = async(req,res) => {
 export const getClassList = async(req, res) => {
     console.log("getClassList 호출 🧤 ")
     const id = await getUserId(req.loggedInUser);
-    
     const user = await User.findOne(id);
     if (!user){
         return res.status(401).json({ message:"There's no such User 😢" });
@@ -47,6 +47,8 @@ export const getClassList = async(req, res) => {
     console.log("현재 시간: ⏰",today);
     const classes = await Class.find({user:id, startDateTime: { $gte: today } })
     console.log(classes)
+
+
     return res.status(200).json(classes)
 }
 
@@ -55,7 +57,9 @@ export const getClass = async(req, res) => {
     const { id } = req.params; //id는 클래스 id 
     const user = await getUserId(req.loggedInUser);
     const classFound = await Class.findById(id);
+    const classMaterialId = classFound.classMaterial;
     console.log("classFound는", classFound)
+
     if (classFound == "" || classFound == null) {
         return res.status(401).json({ message:"Can't found the Class 😢" });
     }
@@ -65,7 +69,6 @@ export const getClass = async(req, res) => {
     if (classFound.user.toString() != user.toString()) {
         return res.status(401).json({ message:"You have no right to update the class 😤 " });
     }
-
     return res.status(200).json(classFound);
 }
 
@@ -180,4 +183,18 @@ export const deleteClass  = async(req,res) => {
         return res.status(401).json({ message:"Found no class to delete 😭" });
     }
     return res.status(200).send(deletedClass);
+}
+
+export const getClassMaterial  = async(req,res) =>{
+    // console.log("dho?")
+    console.log("getClassMaterial 함수 실행 해당하는 자료를 담아요")
+    const { id } = req.params; //id는 클래스 id 
+    const user = await getUserId(req.loggedInUser);
+    const classFound = await Class.findById(id);
+    console.log(classFound)
+    const classMaterialId = classFound.classMaterial;
+    console.log()
+    const classMaterial = await Material.findById(classMaterialId.toString());
+    console.log("classMaterialId", classMaterial)
+    return res.status(200).json(classMaterial);
 }
