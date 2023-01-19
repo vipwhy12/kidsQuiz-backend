@@ -74,6 +74,7 @@ export const getClass = async(req, res) => {
 
 export const postNewClass = async(req,res) => {
     console.log("getPostNewClass 호출 🧤 ")
+    console.log()
     let thumbnail ; 
     if (req.file == undefined ) {
         thumbnail = "https://kidsquizbucket.s3.ap-northeast-2.amazonaws.com/upload/defaultThumbnail.jpeg"
@@ -84,30 +85,48 @@ export const postNewClass = async(req,res) => {
     }
     console.log("로그인된 유저 나와라📌📌📌 ", req.loggedInUser);
     const user = await getUserId(req.loggedInUser);
-    const {title, startDateTime, studentMaxNum, classKey, classMaterial} = req.body;
-    console.log("나와라📌📌📌📌", startDateTime)
-   
+    
+    const {title, startDateTime, studentMaxNum, classKey} = req.body;
+    let {classMaterial} = req.body;
+    
     if (!title || startDateTime == null || startDateTime == undefined  || studentMaxNum<=0 ) {
         return res.status(400).json({ message:"There's missing information 😭", title, startDateTime, studentMaxNum, thumbnail });
     }
+
     // 이 유저가 생성한 클래스 중 겹치는 시간이 있는지 확인 
     const sameDateTime = await Class.findOne({startDateTime, user})
-    console.log("나와라📌📌📌📌", startDateTime)
+    console.log("테스트")
+
     if (sameDateTime) {
         return res.status(401).json({ message:"You already have the class in the same date and time 😭" });
     }
-    console.log("나와라📌📌📌📌", startDateTime)
+    console.log("클래스 생성 시작", classMaterial);
+    console.log("클래스 생성 시작", classMaterial === "null");
     try{
-        console.log("클래스 생성 시작");
+ 
+        
+        if (classMaterial == 'null') {
+            console.log("교구 없음")
+            await Class.create({
+                title, 
+                startDateTime, 
+                studentMaxNum, 
+                classKey, 
+                thumbnail, 
+                user
+            });
+        }
+        else {
         await Class.create({
             title, 
             startDateTime, 
             studentMaxNum, 
             classKey, 
-            classMaterial, 
+            classMaterial ,
             thumbnail, 
             user
         });
+    }
         console.log("클래스 생성 완료");
         
         const ClassCreated = await Class.findOne({startDateTime, user})
