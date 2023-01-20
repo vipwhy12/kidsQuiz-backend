@@ -10,16 +10,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-//🌟 Material 관련 함수 
+//🌟 Material 목록 조회
 export const getMaterial = async (req, res) => {
-  // TODO : 사용자의 아이디와 자료 보여주기
-  const userObjectId = await User.findOne({email : req.loggedInUser});
   try{
+    const userObjectId = await User.findOne({email : req.loggedInUser});
     const findPuzzle = await Puzzle.find({ user : userObjectId });
     const findMultipleChoice = await MultipleChoice.find({ user : userObjectId });
     const findImage = await Image.find({ user : userObjectId })
-
-    
     return res.status(200).json({ puzzle : findPuzzle, multipleChoice : findMultipleChoice, image : findImage });
   }catch(error){
     return res.status(419).json({message : "💥getMaterial Error:💥"  + error});
@@ -27,7 +24,7 @@ export const getMaterial = async (req, res) => {
 };
 
 
-//👉 Materials Puzzle과 관련된 함수
+//🌟 Materials Puzzle 만들기
 export const createPuzzle = async (req, res) => {
   const title = req.body.title;
   const userObjectId = await User.findOne({email : req.loggedInUser});
@@ -57,7 +54,7 @@ export const createPuzzle = async (req, res) => {
 }
 
 
-//👉 Materials MultipleChoice 관련된 함수
+//🌟Materials MultipleChoice 관련된 함수
 export const createMultipleChoice = async (req, res) => {
   const {question, category, answer} = req.body;
   const userObjectId = await User.findOne({email : req.loggedInUser});
@@ -69,8 +66,10 @@ export const createMultipleChoice = async (req, res) => {
   if (category == 1){
     firstChoice = req.body.firstChoice;
     secondChoice = req.body.secondChoice;    
+
   }else if (category == 2) {
-    
+
+    // TODO : 다중파일 처리하자 POSTMAN 해결해볼것! 
     console.log("🚀req.files 찍어봄 ", req.files)
     console.log("🚀🚀req.files[0] 찍어봄 ", req.files[0])
     console.log("🚀🚀req.files[1] 찍어봄 ", req.files[1])
@@ -103,7 +102,7 @@ export const createMultipleChoice = async (req, res) => {
 }
 
 
-// 👉 Materials Image관련 함수 (다중파일버전)
+// 🌟 Materials Image 다중파일 받아서 CREATE
 export const createImage = async (req, res) => {
   const userObjectId = await User.findOne({email : req.loggedInUser});
   let imageList = []
@@ -113,8 +112,6 @@ export const createImage = async (req, res) => {
   }
 
   imageList.forEach((element) => {
-    // console.log("💊💊💊💊💊💊💊💊💊" + element)
-
     try {
       console.log("🩻 Image 생성을 시작합니다.");
       Image.create({
@@ -126,7 +123,6 @@ export const createImage = async (req, res) => {
         return res.status(500).json({ message: "Image 생성에 실패하였습니다.✨필수 데이터 확인 후 백엔드 개발자에게 문의해주세요 : " + error});
     }
   })
-
   return res.status(200).json({ message : "🩻 Image 생성을 완료했습니다."});
 }
 
@@ -150,18 +146,11 @@ export const createImage = async (req, res) => {
 // }
 
 
-//=============================================
 //🌟 ClassMaterial 관련 함수 
-
 export const getClassMaterial = async (req, res) => {
-  // 사용자가 가지고 있는 classMaterial 목록 불러오기 
-  try {
-    const userObjectId = await User.findOne({email : req.loggedInUser})
+  try {    
+    const userObjectId = await User.findOne({ email : req.loggedInUser })
     const materialList = await Material.find({ users : userObjectId._id})
-
-    console.log(userObjectId._id)
-    console.log(materialList)
-    
     return res.status(200).json({ classMaterial : materialList });
   }catch (err){
     return res.status(404).json({ message: "classMaterial" + err});
@@ -174,12 +163,8 @@ export const createClassMaterial = async (req, res) => {
   const userObjectId = await User.findOne({email : req.loggedInUser})
 
   let today = new Date(); 
-  console.log(req.body)
-  console.log(title, puzzle, multipleChoice, image)
-  console.log( "========="+ userObjectId._id)
-
-  let puzzleList = []
   let multipleChoiceList = []
+  let puzzleList = []
   let imageList = []
 
     for(let i=0; i < puzzle.length; i++){
@@ -205,8 +190,10 @@ export const createClassMaterial = async (req, res) => {
       image : imageList,
       multipleChoice : multipleChoiceList
     })
+
     console.log("✨Class Materials 생성을 완료하였습니다.✨");
     return res.status(200).json({ message : "✨Class Materials 생성을 완료하였습니다.✨", "test" : test})
+  
   } catch (error){
     return res.status(500).json({ message: "✨Class Materials 생성에 실패하였습니다.✨필수 데이터 확인 후 백엔드 개발자에게 문의해주세요 : " + error});
   }
