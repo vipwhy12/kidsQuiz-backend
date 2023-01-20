@@ -226,16 +226,17 @@ export const getClassMaterial  = async(req,res) =>{
     
     try {
         const classFound =  await Class.findById(id);
-        console.log(classFound)
+        // console.log(classFound.classMaterial)
+        // console.log(classFound.classMaterial === null)
 
-        if(classFound.classMaterial === undefined || classFound.classMaterial == "null"){
+        if(classFound.classMaterial === undefined || classFound.classMaterial === null){
             console.log("🙊관련 수업 자료가  없습니다.")
             return res.status(200).json({ message: "관련 수업 자료가 없습니다.." });
         }
 
         const liveClassMaterial = await Material.findById(classFound.classMaterial);
         
-        if(liveClassMaterial === "null"){
+        if(liveClassMaterial === null || classFound.classMaterial === undefined){
             console.log("🙊수업 자료가 없습니다.")
             return res.status(200).message("🙊수업 자료가 없습니다.");
         }
