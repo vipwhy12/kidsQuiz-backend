@@ -228,9 +228,9 @@ export const getClassMaterial  = async(req,res) =>{
         const classFound =  await Class.findById(id);
         console.log(classFound)
 
-        if(classFound.classMaterial == undefined){
-            console.log("🙊관련 수업이 없습니다.")
-            return res.status(404).message("관련 수업이 없습니다.");
+        if(classFound.classMaterial === undefined || classFound.classMaterial == "null"){
+            console.log("🙊관련 수업 자료가  없습니다.")
+            return res.status(200).json({ message: "관련 수업 자료가 없습니다.." });
         }
 
         const liveClassMaterial = await Material.findById(classFound.classMaterial);
