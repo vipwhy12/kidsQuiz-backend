@@ -14,7 +14,7 @@ classRouter.route("/:id([0-9a-z]{24})")
     .delete(deleteClass)
 
 //들어갈때 한번에 재료 묶음 보내주기
-classRouter.route("/matarial/:id([0-9a-z]{24})").all(verifyToken).get(getClassMaterial)
+classRouter.route("/material/:id([0-9a-z]{24})").all(verifyToken).get(getClassMaterial)
 
 
 

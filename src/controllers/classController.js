@@ -220,19 +220,29 @@ export const deleteClass  = async(req,res) => {
 //라이브 페이지 입장시, Material 가져오기
 export const getClassMaterial  = async(req,res) =>{
     console.log("getClassMaterial이 실행됩니다!")
+
     const { id } = req.params; //id : 클래스 식별자 
     const user = await getUserId(req.loggedInUser);
     
     try {
-        const classFound = await Class.findById(id.toString());  
-        const classObjectId = classFound.classMaterial.toString();        
-        const classMaterial = await Material.findById(classObjectId)
-        // console.log(classMaterial)
-        //교구 묶음이 잘 뽑아져 나왔으면 해당 교구재들을 다시 담아서 보내주자 
+        const classFound =  await Class.findById(id);
+        console.log(classFound)
 
-        let imageList = classMaterial.image
-        let puzzleList = classMaterial.puzzle
-        let multipleChoiceList = classMaterial.multipleChoice
+        if(classFound.classMaterial == undefined){
+            console.log("🙊관련 수업이 없습니다.")
+            return res.status(404).message("관련 수업이 없습니다.");
+        }
+
+        const liveClassMaterial = await Material.findById(classFound.classMaterial);
+        
+        if(liveClassMaterial === "null"){
+            console.log("🙊수업 자료가 없습니다.")
+            return res.status(200).message("🙊수업 자료가 없습니다.");
+        }
+
+        let imageList = liveClassMaterial.image
+        let puzzleList = liveClassMaterial.puzzle
+        let multipleChoiceList = liveClassMaterial.multipleChoice
 
         let liveImageList = []
         let livePuzzleList = []
