@@ -245,10 +245,9 @@ export const getClassMaterial  = async(req,res) =>{
             liveMultipleChoiceList[i] = await MultipleChoice.findById(multipleChoiceList[i])
         }
 
-        console.log("getClassMaterial search 완료!")        
         return res.status(200).json({ puzzle : livePuzzleList , multipleChoice : liveMultipleChoiceList, image : liveImageList});
     }catch(err){
-        console.log(err)
+        console.log("에러메세지 :" + err)
         return res.status(404).json({message : err})
     }
 }
