@@ -22,7 +22,7 @@ const secretKey = process.env.JWT_SECRET
 
 const logger = morgan("dev");
 const app = express();  
-const PORT = 5000;
+const PORT = 3300;
 
 app.use(express.text()); 
 app.use(express.json()); //string을 받아서 json으로 바꿔주는 middleware (JSON.parse를 해준다고 생각하면 됨)

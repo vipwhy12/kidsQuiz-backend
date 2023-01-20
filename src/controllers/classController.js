@@ -1,8 +1,9 @@
 import Class from "../models/LiveClasses.js"
 import User from "../models/Users.js"
+import Puzzle from "../models/Puzzles.js"
 import {getUserId} from "../middlewares.js"
 import Material from "../models/Materials.js"
-
+import MultipleChoice from "../models/MultipleChoice.js"
 
 export const postImage = (req,res) => {
     const {file} = req.body
@@ -85,13 +86,18 @@ export const postNewClass = async(req,res) => {
     console.log("로그인된 유저 나와라📌📌📌 ", req.loggedInUser);
     const user = await getUserId(req.loggedInUser);
     const {title, startDateTime, studentMaxNum, classKey, classMaterial} = req.body;
+
+    console.log("여기 테스트" + title)
+    console.log("여기 테스트" + startDateTime)
+
     console.log("나와라📌📌📌📌", startDateTime)
-   
     if (!title || startDateTime == null || startDateTime == undefined  || studentMaxNum<=0 ) {
         return res.status(400).json({ message:"There's missing information 😭", title, startDateTime, studentMaxNum, thumbnail });
     }
+    
     // 이 유저가 생성한 클래스 중 겹치는 시간이 있는지 확인 
     const sameDateTime = await Class.findOne({startDateTime, user})
+    
     console.log("나와라📌📌📌📌", startDateTime)
     if (sameDateTime) {
         return res.status(401).json({ message:"You already have the class in the same date and time 😭" });
@@ -113,6 +119,7 @@ export const postNewClass = async(req,res) => {
         const ClassCreated = await Class.findOne({startDateTime, user})
         console.log("새로 생성된 클래스는", ClassCreated);
         return res.status(200).send(ClassCreated);
+
     } catch(error) {
         console.log(error);
         return res.status(500).json({ message:"we faced a problem as creating a new class" });
@@ -134,7 +141,7 @@ export const postClass = async(req,res) => {
     if (classFound.user.toString() != user.toString()) {
         return res.status(401).json({ message:"You have no right to update the class 😤 " });
     }
-     
+    
     let thumbnail; 
         if (req.file != undefined ) { // 사진이 들어온 경우 -> 수정해야 해 
             const file = req.file
@@ -144,7 +151,7 @@ export const postClass = async(req,res) => {
             thumbnail = classFound.thumbnail // 새 사진이 안 들어온 경우 -> 수정할 필요 없이 기존의 thumbnail 값 그대로 사용 
             //todo:  가능하다면 s3에서 기존 사진을 삭제하는 로직이 추가되면 좋게따.. 
         }
-      
+
     const sameDateTime = await Class.findOne({startDateTime, user})
     if (sameDateTime && sameDateTime._id != _id ) {
         return res.status(401).json({ message:"You already have the class in the same date and time 😭" });
@@ -185,24 +192,48 @@ export const deleteClass  = async(req,res) => {
     return res.status(200).send(deletedClass);
 }
 
+
+
+//라이브 페이지 입장시, Material 가져오기
 export const getClassMaterial  = async(req,res) =>{
-    // console.log("dho?")
-    console.log("getClassMaterial 함수 실행 해당하는 자료를 담아요")
-    const { id } = req.params; //id는 클래스 id 
-
-    // console.log(id)
+    console.log("getClassMaterial이 실행됩니다!")
+    const { id } = req.params; //id : 클래스 식별자 
     const user = await getUserId(req.loggedInUser);
-    const classFound = await Class.findById(id);
-    try{
-        const classMaterialId = classFound.classMaterial;
-        
-    }catch(err){
+    
+    try {
+        const classFound = await Class.findById(id.toString());  
+        const classObjectId = classFound.classMaterial.toString();        
+        const classMaterial = await Material.findById(classObjectId)
+        // console.log(classMaterial)
+        //교구 묶음이 잘 뽑아져 나왔으면 해당 교구재들을 다시 담아서 보내주자 
 
+        let imageList = classMaterial.image
+        let puzzleList = classMaterial.puzzle
+        let multipleChoiceList = classMaterial.multipleChoice
+
+        let liveImageList = []
+        let livePuzzleList = []
+        let liveMultipleChoiceList = []
+        
+        
+        for(let i = 0; i < imageList.length ;i++){
+            liveImageList[i] = await Image.findById(imageList[i].toString)
+        }
+
+
+        for(let i = 0; i < puzzleList.length ;i++){
+            livePuzzleList[i] = await Puzzle.findById(puzzleList[i])
+        }
+
+        
+        for(let i = 0; i < MultipleChoice.length; i++){
+            liveMultipleChoiceList[i] = await MultipleChoice.findById(multipleChoiceList[i])
+        }
+
+        console.log("getClassMaterial search 완료!")        
+        return res.status(200).json({ puzzle : livePuzzleList , multipleChoice : liveMultipleChoiceList, image : liveImageList});
+    }catch(err){
+        console.log(err)
+        return res.status(404).json({message : err})
     }
-    // console.log(classFound)
-    // const classMaterialId = classFound.classMaterial;
-    console.log()
-    // const classMaterial = await Material.findById(classMaterialId.toString());
-    // console.log("classMaterialId", classMaterial)
-    // return res.status(200).json(classMaterial);
 }

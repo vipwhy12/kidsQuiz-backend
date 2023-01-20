@@ -10,11 +10,11 @@ export const postCredential = async(req, res) => {
     const user = await User.findById(_id); 
     if (!user) {
         return res.status(401).json({ message:"No usfer with the id😢 " });
-       }
-      if (user.password !== password) {
+    }
+    if (user.password !== password) {
       return res.status(400).json({ message:"Password does not match 😢" });
-      }
-      return res.status(200).json({ message: "OK"})
+    }
+        return res.status(200).json({ message: "OK"})
 }
 
 export const getUserInfo = async(req, res) => {
