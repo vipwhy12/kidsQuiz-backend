@@ -222,6 +222,9 @@ export const getClassMaterial  = async(req,res) =>{
         // console.log(classMaterial)
         //교구 묶음이 잘 뽑아져 나왔으면 해당 교구재들을 다시 담아서 보내주자 
 
+        if(){
+                        
+        }
         let imageList = classMaterial.image
         let puzzleList = classMaterial.puzzle
         let multipleChoiceList = classMaterial.multipleChoice
@@ -248,7 +251,7 @@ export const getClassMaterial  = async(req,res) =>{
         console.log("getClassMaterial search 완료!")        
         return res.status(200).json({ puzzle : livePuzzleList , multipleChoice : liveMultipleChoiceList, image : liveImageList});
     }catch(err){
-        console.log(err)
+        console.log("에러메세지 :" + err)
         return res.status(404).json({message : err})
     }
 }
