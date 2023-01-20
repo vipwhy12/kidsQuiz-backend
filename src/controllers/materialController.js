@@ -29,6 +29,10 @@ export const createPuzzle = async (req, res) => {
   const title = req.body.title;
   const userObjectId = await User.findOne({email : req.loggedInUser});
   
+  if (!req.file) {
+    return res.status(500).json({ message: "파일이 올바르게 저장되지 않음"});
+  }
+
   if (title){
     try {
       console.log("🧩 Puzzle 생성을 시작합니다.");
@@ -64,12 +68,18 @@ export const createMultipleChoice = async (req, res) => {
     secondChoice = req.body.secondChoice;    
 
   }else if (category == 2) {
+
     // TODO : 다중파일 처리하자 POSTMAN 해결해볼것! 
     console.log("🚀req.files 찍어봄 ", req.files)
     console.log("🚀🚀req.files[0] 찍어봄 ", req.files[0])
     console.log("🚀🚀req.files[1] 찍어봄 ", req.files[1])
+    
+    if ( req.files.length === 0 ) {
+      return res.status(500).json({ message: "🐋 이미지 파일이 올바르게 저장되지 않음"});
+    } 
     firstChoice = req.files[0].location;
     secondChoice = req.files[1].location;
+
   } else {
     return res.status(500).json({ message: "🐋 MultipleChoice Category 선택 실패"});
   }

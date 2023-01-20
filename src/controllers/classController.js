@@ -5,11 +5,6 @@ import {getUserId} from "../middlewares.js"
 import Material from "../models/Materials.js"
 import MultipleChoice from "../models/MultipleChoice.js"
 
-export const postImage = (req,res) => {
-    const {file} = req.body
-    console.log("file~~" ,file);
-    res.send("OK")
-}
 
 //!!!!! 새로 추가 
 export const getClassHost = async(req,res) => {
@@ -45,11 +40,20 @@ export const getClassList = async(req, res) => {
         return res.status(401).json({ message:"There's no such User 😢" });
     } 
     let today = new Date();   
-    console.log("현재 시간: ⏰",today);
-    const classes = await Class.find({user:id, startDateTime: { $gte: today } })
-    console.log(classes)
+    
+    const classes = await Class.
+        find({user:id, startDateTime: { $gte: today }}).sort({startDateTime: 1})
+        // .select('_id startDateTime title studentMaxNum classMaterial thumbnail user')
 
-
+    console.log("classes", classes)
+    
+    // ⏰한국 시간으로 변환  
+    classes.forEach(doc=> {
+        let date = doc.startDateTime
+        date.setHours(date.getHours()+9)
+        doc.startDateTime= date
+    })
+    
     return res.status(200).json(classes)
 }
 
@@ -64,9 +68,9 @@ export const getClass = async(req, res) => {
     if (classFound == "" || classFound == null) {
         return res.status(401).json({ message:"Can't found the Class 😢" });
     }
-    // if (classFound.user != user) {
-    //     return res.status(401).json({ message:"You have no right to see the classinfo 😤 " });
-    // }
+    if (classFound.user != user) {
+        return res.status(401).json({ message:"You have no right to see the classinfo 😤 " });
+    }
     if (classFound.user.toString() != user.toString()) {
         return res.status(401).json({ message:"You have no right to update the class 😤 " });
     }
@@ -75,10 +79,29 @@ export const getClass = async(req, res) => {
 
 export const postNewClass = async(req,res) => {
     console.log("getPostNewClass 호출 🧤 ")
-    console.log()
+
+    /* req.body 모습 (classMaterial,image 없이 보냈을 때. 이미지가 있는 경우에는 아예 image: ''조차도 없음  )
+    {
+        title: 'asdfasdf',
+        startDateTime: '2023-01-21 00:00:00',
+        classMaterial: 'null',
+        studentMaxNum: '4',
+        image: ''
+        }
+    */
+    
     let thumbnail ; 
     if (req.file == undefined ) {
-        thumbnail = "https://kidsquizbucket.s3.ap-northeast-2.amazonaws.com/upload/defaultThumbnail.jpeg"
+        const randomIndex = Math.floor((Math.random())*5)
+        console.log(randomIndex)
+        const thumnails = [
+            "https://kidsquizbucket.s3.ap-northeast-2.amazonaws.com/%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB1.png",
+            "https://kidsquizbucket.s3.ap-northeast-2.amazonaws.com/%E1%84%8B%E1%85%A1%E1%84%80%E1%85%B5%E1%84%83%E1%85%A9%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AF%E1%84%8F%E1%85%A2%E1%84%85%E1%85%B5%E1%86%A8%E1%84%90%E1%85%A52+2.png",
+            "https://kidsquizbucket.s3.ap-northeast-2.amazonaws.com/%E1%84%8B%E1%85%A1%E1%84%80%E1%85%B5%E1%84%83%E1%85%A9%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AF%E1%84%8F%E1%85%A2%E1%84%85%E1%85%B5%E1%86%A8%E1%84%90%E1%85%A52+3.png",
+            "https://kidsquizbucket.s3.ap-northeast-2.amazonaws.com/%E1%84%8B%E1%85%A1%E1%84%80%E1%85%B5%E1%84%83%E1%85%A9%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AF%E1%84%8F%E1%85%A2%E1%84%85%E1%85%B5%E1%86%A8%E1%84%90%E1%85%A52.png",
+            "https://kidsquizbucket.s3.ap-northeast-2.amazonaws.com/%E1%84%80%E1%85%B1%E1%84%8B%E1%85%A7%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%83%E1%85%A9%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AF%E1%84%80%E1%85%B3%E1%84%85%E1%85%B5%E1%86%B74.png"
+        ]
+        thumbnail = thumnails[randomIndex]
     }
     else {
         const file = req.file
@@ -97,38 +120,24 @@ export const postNewClass = async(req,res) => {
 
     // 이 유저가 생성한 클래스 중 겹치는 시간이 있는지 확인 
     const sameDateTime = await Class.findOne({startDateTime, user})
-    console.log("테스트")
+    
 
     if (sameDateTime) {
+        console.log("🚨 동일한 시간에 이미 강의가 존재합니다")
         return res.status(401).json({ message:"You already have the class in the same date and time 😭" });
     }
+
     console.log("클래스 생성 시작",     console.log("getClassMaterial이 실행됩니다!"));
-    console.log("클래스 생성 시작", classMaterial === "null");
+
     try{
- 
-        
-        if (classMaterial == 'null') {
-            console.log("교구 없음")
-            await Class.create({
-                title, 
-                startDateTime, 
-                studentMaxNum, 
-                classKey, 
-                thumbnail, 
-                user
-            });
-        }
-        else {
         await Class.create({
             title, 
             startDateTime, 
-            studentMaxNum, 
-            classKey, 
-            classMaterial ,
+            studentMaxNum,  
+            classMaterial: classMaterial === 'null' ? null : classMaterial , 
             thumbnail, 
             user
         });
-    }
         console.log("클래스 생성 완료");
         
         const ClassCreated = await Class.findOne({startDateTime, user})
@@ -144,7 +153,7 @@ export const postNewClass = async(req,res) => {
 export const postClass = async(req,res) => {
     console.log("postClass 호출 🧤 ")
     const _id  = req.params.id; //id는 클래스 id 
-    const {title, startDateTime, studentMaxNum, classKey, classMaterial} = req.body;
+    const {title, startDateTime, studentMaxNum, classMaterial} = req.body;
     console.log("로그인된 유저 나와라📌📌📌 ", req.loggedInUser);
     const user = await getUserId(req.loggedInUser);
     const classFound = await Class.findById(_id)
@@ -178,7 +187,6 @@ export const postClass = async(req,res) => {
             title, 
             startDateTime, 
             studentMaxNum, 
-            classKey, 
             classMaterial, 
             thumbnail, 
             user 
