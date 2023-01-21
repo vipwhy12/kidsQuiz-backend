@@ -4,7 +4,7 @@ import Puzzle from "../models/Puzzles.js"
 import {getUserId} from "../middlewares.js"
 import Material from "../models/Materials.js"
 import MultipleChoice from "../models/MultipleChoice.js"
-import Image from "../models/Images"
+import Image from "../models/Images.js"
 
 
 //!!!!! 새로 추가 
