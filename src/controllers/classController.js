@@ -251,7 +251,7 @@ export const getClassMaterial  = async(req,res) =>{
         
         
         for(let i = 0; i < imageList.length ;i++){
-            liveImageList[i] = await Image.findById(imageList[i].toString)
+            liveImageList[i] = await Image.findById(imageList[i])
         }
 
 
