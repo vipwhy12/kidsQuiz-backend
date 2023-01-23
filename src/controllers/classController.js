@@ -249,6 +249,11 @@ export const getClassMaterial  = async(req,res) =>{
         let liveImageList = []
         let livePuzzleList = []
         let liveMultipleChoiceList = []
+
+        let imageMultipleChoiceList = []
+        let textMultipleChoiceList = []
+
+        console.log(multipleChoiceList)
         
         
         for(let i = 0; i < imageList.length ;i++){
@@ -261,11 +266,21 @@ export const getClassMaterial  = async(req,res) =>{
         }
 
         
-        for(let i = 0; i < MultipleChoice.length; i++){
+        for(let i = 0; i < multipleChoiceList.length; i++){
             liveMultipleChoiceList[i] = await MultipleChoice.findById(multipleChoiceList[i])
         }
 
-        return res.status(200).json({ puzzle : livePuzzleList , multipleChoice : liveMultipleChoiceList, image : liveImageList});
+        for(let i = 0; i < liveMultipleChoiceList.length; i++){
+            // console.log(liveMultipleChoiceList[i].category)
+            if (liveMultipleChoiceList[i].category == 1){
+                textMultipleChoiceList.push(liveMultipleChoiceList[i])
+            } else if (liveMultipleChoiceList[i].category == 2) {
+                imageMultipleChoiceList.push(liveMultipleChoiceList[i])
+            }
+        }
+
+        return res.status(200).json({ puzzle : livePuzzleList , textMultipleChoiceList:textMultipleChoiceList ,imageMultipleChoiceList :imageMultipleChoiceList ,image : liveImageList});
+    
     }catch(err){
         console.log("에러메세지 :" + err)
         return res.status(404).json({message : err})
